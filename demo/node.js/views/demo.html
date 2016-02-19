@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Rotating Banner</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <link href="/css/demo.css" rel="stylesheet" />
+</head>
+
+<body class="demo">
+    <section class="banner">
+        <ul class="pic_ul">
+            <li class="li_click" style="background:url(<% // 这里服务器端动态赋值 %>Uploadfile/temp/banner_01.jpg); background-position: center;" url="http://www.sina.com" target="_blank"></li>
+            <li class="li_click" style="background:url(Uploadfile/temp/banner_02.jpg); background-position: center;" url="http://www.baidu.com" target="_blank"></li>
+            <li class="li_click" style="background:url(Uploadfile/temp/banner_01.jpg); background-position: center;" url="http://www.qq.com" target="_blank"></li>
+            <li class="li_click" style="background:url(Uploadfile/temp/banner_02.jpg); background-position: center;" url="http://www.topu.net" target="_blank"></li>
+        </ul>
+        <ul class="point_ul" <% // 有几个圆点，就放几个li %>>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </section>
+    <script src="/inc/jquery.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="/jq/RotatingBanner.js"></script>
+    <script type="text/javascript">
+    $(function() {
+        var RotatingBanner_obj = {};
+        RotatingBanner.init(RotatingBanner_obj);
+    });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,47 @@
+
+@import "common.less";
+@page_name: body.demo;
+// 轮播
+@{page_name} section.banner {
+    width: 100%;
+    min-width: @content_width;
+    height: 766px;
+    overflow: hidden;
+    position: relative;
+}
+
+// 轮播 图片
+@{page_name} section.banner ul.pic_ul {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+@{page_name} section.banner ul.pic_ul li {
+    float: left;
+}
+
+// 轮播 圆点
+@{page_name} section.banner ul.point_ul {
+    position: absolute;
+    width: 100%;
+    bottom: 15px;
+    text-align: center;
+}
+
+@{page_name} section.banner ul.point_ul li {
+    .inline-block();
+    margin: 0 10px;
+    width: 14px;
+    height: 14px;
+    cursor: pointer;
+    border: solid 1px #B79F95;
+    .border-radius(7px);
+    &.selected {
+        border: solid 1px #666;
+        background: #666;
+        cursor: default;
+    }
+}
+
+// end 轮播
