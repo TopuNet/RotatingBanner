@@ -24,5 +24,5 @@
 		        duration: null, // 动画过渡时间，毫秒。默认500
 		        delay: null // 动画间隔，毫秒。默认5000
         	};
-	        RotatingBanner.init();
+	        RotatingBanner.init(RotatingBanner_obj);
 	    });
