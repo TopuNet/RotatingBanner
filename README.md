@@ -1,4 +1,4 @@
-# RotatingBanner JS插件 v1.0.1
+# RotatingBanner JS插件 v1.1.1
 ###轮播Banner（不含样式）
 
 文件结构：
@@ -21,8 +21,14 @@
 		        box_selector: null, // 外盒选择器，默认值：section.banner
 		        pic_ul_selector: null, // 图片li的ul盒选择器，默认值：ul.pic_ul
 		        point_ul_selector: null, // 圆点li的ul盒选择器，空字符串为无圆点。默认值：ul.point_ul。
+		        point_li_selected_className:null, // 圆点高亮li的className，默认值：selected
 		        duration: null, // 动画过渡时间，毫秒。默认500
 		        delay: null // 动画间隔，毫秒。默认5000
         	};
 	        RotatingBanner.init(RotatingBanner_obj);
 	    });
+
+更新历史：
+--------------
+v1.1.1：
+增加参数：圆点高亮li的样式名

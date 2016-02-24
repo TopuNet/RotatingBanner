@@ -11,6 +11,7 @@ var RotatingBanner = {
         box_selector: null, // 外盒选择器，默认值：section.banner
         pic_ul_selector: null, // 图片li的ul盒选择器，默认值：ul.pic_ul
         point_ul_selector: null, // 圆点li的ul盒选择器，空字符串为无圆点。默认值：ul.point_ul。
+        point_li_selected_className: null, // 圆点高亮li的className，默认值：selected
         duration: null, // 动画过渡时间，毫秒。默认500
         delay: null // 动画间隔，毫秒。默认5000
     },
@@ -21,6 +22,7 @@ var RotatingBanner = {
             box_selector: "section.banner",
             pic_ul_selector: "ul.pic_ul",
             point_ul_selector: "ul.point_ul",
+            point_li_selected_className: "selected",
             duration: 500,
             delay: 5000
         };
@@ -177,15 +179,15 @@ var RotatingBanner = {
     changePoint: function() {
         var paras = RotatingBanner.paras;
         var obj = $(paras.box_selector + " " + paras.point_ul_selector + " li");
-        obj.siblings(".selected").removeClass("selected");
-        $(obj[RotatingBanner.banner_now]).addClass("selected");
+        obj.siblings("." + paras.point_li_selected_className).removeClass(paras.point_li_selected_className);
+        $(obj[RotatingBanner.banner_now]).addClass(paras.point_li_selected_className);
     },
 
     // 监听圆点
     PointListener: function() {
         var paras = RotatingBanner.paras;
         var obj = $(paras.box_selector + " " + paras.point_ul_selector + " li");
-        $(obj[0]).addClass("selected");
+        $(obj[0]).addClass(paras.point_li_selected_className);
         obj.click(function() {
             var n = $(this).index();
             if (n == RotatingBanner.banner_now)
