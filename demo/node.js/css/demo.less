@@ -1,7 +1,6 @@
-
 @import "common.less";
 @page_name: body.demo;
-// 轮播
+// 效果1
 @{page_name} section.banner {
     width: 100%;
     min-width: @content_width;
@@ -10,7 +9,7 @@
     position: relative;
 }
 
-// 轮播 图片
+// 图片
 @{page_name} section.banner ul.pic_ul {
     position: absolute;
     top: 0;
@@ -21,7 +20,7 @@
     float: left;
 }
 
-// 轮播 圆点
+// 圆点
 @{page_name} section.banner ul.point_ul {
     position: absolute;
     width: 100%;
@@ -37,11 +36,99 @@
     cursor: pointer;
     border: solid 1px #B79F95;
     .border-radius(7px);
-    &.select {
+    &.selected {
         border: solid 1px #666;
         background: #666;
         cursor: default;
     }
 }
 
-// end 轮播
+// end 效果1
+// 效果2
+@{page_name} section.Effective {
+    height: 900px;
+    position: relative;
+    border: solid 1px #000;
+}
+
+// 圆点
+@{page_name} section.Effective ul.point_ul {
+    position: absolute;
+    top: 50px;
+    width: 100%;
+}
+
+@{page_name} section.Effective ul.point_ul li {
+    width: 109px;
+    height: 109px;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    background: rgba(0, 0, 0, 1);
+    cursor: pointer;
+    &.selected {
+        cursor: default;
+    }
+    &.selected,
+    &.hover {
+        background: rgba(0, 0, 0, .2);
+        border:solid 2px #000;
+    }
+}
+
+.loop_point_ul_li(@i) when ((@i)>0) {
+    @{page_name} section.Effective ul.point_ul li.l@{i} {
+        margin-left: 447px-168px*(7-(@i));
+    }
+    .loop_point_ul_li((@i)-1);
+}
+
+.loop_point_ul_li(7);
+// end 圆点
+// 图片轮播
+@{page_name} section.Effective div.banner_div {
+    position: absolute;
+    width: 793px;
+    height: 585px;
+    top: 282px;
+    left: 50%;
+    margin-left: -396px;
+    overflow: hidden;
+}
+
+@{page_name} section.Effective div.banner_div ul.pic_ul {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+@{page_name} section.Effective div.banner_div ul.pic_ul li {
+    float: left;
+}
+
+// end 图片轮播
+// 左箭头
+@{page_name} section.Effective div.arrow_left {
+    width: 52px;
+    height: 51px;
+    background:#ff0000;
+    position: absolute;
+    top: 527px;
+    left: 50%;
+    margin-left: -560px;
+    cursor: pointer;
+}
+
+// 右箭头
+@{page_name} section.Effective div.arrow_right {
+    width: 52px;
+    height: 51px;
+    background:#ff0000;
+    position: absolute;
+    top: 527px;
+    left: 50%;
+    margin-left: 506px;
+    cursor: pointer;
+}
+
+// end 效果2
