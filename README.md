@@ -1,4 +1,4 @@
-# RotatingBanner JS插件 v1.2.1
+# RotatingBanner JS插件 v1.2.2
 ###轮播Banner（不含样式）
 
 文件结构：
@@ -39,6 +39,9 @@
 
 更新历史：
 --------------
+v1.2.2:
+修复BUG：点击圆点滚动多屏时滚动终止位置不对。
+
 v1.2.1：
 
 1. 修改参数 pic_ul_selector和point_ul_selector注释。

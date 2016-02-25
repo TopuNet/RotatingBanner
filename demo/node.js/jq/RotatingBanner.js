@@ -139,7 +139,9 @@ var RotatingBanner = {
         var ul_obj = $(_paras.box_selector + " " + _paras.pic_ul_selector);
 
         // 计算滚动后的left值
-        var ul_left_px_new = parseFloat(ul_obj.css("left").replace("px", "")) - X * this_obj.box_width_px;
+        var ul_left_px_new = -X * this_obj.box_width_px;
+
+        console.log(ul_left_px_new);
 
         // 执行滚动
         ul_obj.animate({
@@ -147,8 +149,9 @@ var RotatingBanner = {
         }, _paras.duration, function() {
             var li_obj = $(ul_obj.find("li"));
             var i = 0;
-            for (; i < X; i++)
-                $(li_obj[0]).appendTo(ul_obj);
+            for (; i < X; i++) {
+                $(li_obj[i]).appendTo(ul_obj);
+            }
             ul_obj.css("left", 0);
 
             // 切换banner_now
@@ -183,7 +186,7 @@ var RotatingBanner = {
 
         var i = 0;
         for (; i < X; i++)
-            $(li_obj[li_obj_len - 1]).prependTo(ul_obj);
+            $(li_obj[li_obj_len - (i + 1)]).prependTo(ul_obj);
         ul_obj.css("left", -X * this_obj.box_width_px);
 
         ul_obj.animate({
@@ -224,6 +227,7 @@ var RotatingBanner = {
             var n = $(this).index();
             if (n == this_obj.banner_now)
                 return;
+
             // clearTimeout();
             if (n < this_obj.banner_now)
                 this_obj.scrollToRight(this_obj, this_obj.banner_now - n);
