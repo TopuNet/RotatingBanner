@@ -1,4 +1,4 @@
-# RotatingBanner JS插件 v1.2.2
+# RotatingBanner JS插件 v1.3.1
 ###轮播Banner（不含样式）
 
 文件结构：
@@ -26,6 +26,8 @@
 		        arrow_left_selector: null, // 左箭头的盒选择器，此盒不必存在于box_selector中。null为无左箭头。默认值：null
 		        arrow_right_selector: null, // 右箭头的盒选择器，此盒不必存在于box_selector中。null为无右箭头。默认值：null
 		        duration: null, // 动画过渡时间，毫秒。默认500
+		        resize_li: null, // 自动改变li的宽高为外盒的宽高，默认true
+		        distance: null, // 自动轮播时，滚动距离：distance个li。默认为1
 		        delay: null // 动画间隔，毫秒。默认5000
         	};
 	        var RotatingBanner_1 = RotatingBanner.clone(RotatingBanner);
@@ -39,6 +41,14 @@
 
 更新历史：
 --------------
+v.1.3.1
+
+1. 修复插件内clone方法使用过多导致内存溢出的bug。
+2. 修复多处ul盒选择器未使用传参值的bug。
+3. 增加参数：resize_li和distance。目的见4。相应的，修改功能配置及启用代码。
+4. 支持图片列表轮播时一屏内显示多张图片，并支持一次滚动一屏或滚动n张图片的选择。
+5. 修改demo。
+
 v1.2.2:
 修复BUG：点击圆点滚动多屏时滚动终止位置不对。
 

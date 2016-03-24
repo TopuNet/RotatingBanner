@@ -1,10 +1,11 @@
-// 1.0.1
+// 1.3.1
 var RotatingBanner = {
     Timeout_id: null, // 记录定时器ID，清除时用
     Rotating: false, // 记录当前是否在轮播
     banner_count: null, // banner数量
     banner_now: 0, // 当前显示banner
     box_width_px: null, // 外盒宽度，后续程序中获得
+    li_width_px: null, // li宽度（含margin），后续程序中获得
     // 参数集
     paras: {
         autoPlay: null, // 自动播放：left/right/null，默认值：null
@@ -15,6 +16,8 @@ var RotatingBanner = {
         arrow_left_selector: null, // 左箭头的盒选择器，此盒不必存在于box_selector中。null为无左箭头。默认值：null
         arrow_right_selector: null, // 右箭头的盒选择器，此盒不必存在于box_selector中。null为无右箭头。默认值：null
         duration: null, // 动画过渡时间，毫秒。默认500
+        resize_li: null, // 自动改变li的宽高为外盒的宽高，默认true
+        distance: null, // 自动轮播时，滚动距离：distance个li。默认为1
         delay: null // 动画间隔，毫秒。默认5000
     },
     init: function(_paras) {
@@ -28,11 +31,14 @@ var RotatingBanner = {
             arrow_left_selector: null,
             arrow_right_selector: null,
             duration: 500,
+            resize_li: true,
+            distance: 1,
             delay: 5000
         };
         this.paras = $.extend(paras_default, _paras);
-        _paras = this.clone(this.paras);
+        _paras = this.paras;
 
+        // 图片数量
         this.banner_count = $(_paras.box_selector + " " + _paras.pic_ul_selector + " li").length;
 
         this.resize(this);
@@ -56,21 +62,35 @@ var RotatingBanner = {
     },
 
     // 克隆对象。用于一个页面中有多个轮播图时
-    clone: function(myObj) {
-        if (typeof(myObj) != 'object') return myObj;
-        if (myObj == null) return myObj;
+    clone: function(_obj) {
 
-        var myNewObj = new Object();
+        var cloning = function(myObj) {
 
-        for (var i in myObj)
-            myNewObj[i] = this.clone(myObj[i]);
+            if (typeof(myObj) != 'object') return myObj;
 
-        return myNewObj;
+            if (myObj == null) return myObj;
+
+            var myNewObj = new Object();
+
+            for (var i in myObj) {
+                myNewObj[i] = cloning(myObj[i]);
+            }
+
+            return myNewObj;
+        };
+
+        var _obj_new = cloning(_obj);
+
+        return _obj_new;
     },
 
     // 重定义盒尺寸
     resize: function(this_obj) {
         var n = 0; // 解决某些浏览器resize执行两遍的bug
+        var _paras = this_obj.paras;
+        var box_obj = $(_paras.box_selector); // 盒对象
+                var pic_ul_obj = $(box_obj.find(_paras.pic_ul_selector)); // 图片ul对象
+        var pic_li_obj = $(box_obj.find(_paras.pic_ul_selector + " li")); // 图片li对象
 
         $(window).resize(function() {
             if (++n % 2 == 0)
@@ -80,22 +100,28 @@ var RotatingBanner = {
 
         var resize_do = function() {
 
-            var _paras = this_obj.clone(this_obj.paras);
-            var box_obj = $(_paras.box_selector); // 盒对象
-            var box_width_px = this_obj.box_width_px = box_obj.css("width").replace("px", "");
-            var box_height_px = box_obj.css("height").replace("px", "");
+            var box_width_px = _paras.box_width_px = box_obj.outerWidth();
+            var box_height_px = box_obj.outerHeight();
 
             setTimeout(function() {
+                if (_paras.resize_li) {
 
-                var pic_li_obj = $(box_obj.find("ul.pic_ul li")); // 图片li对象
 
-                if (pic_li_obj.length <= 1) // 没有li则不往下执行
-                    return;
-                pic_li_obj.css("width", box_width_px + "px");
-                pic_li_obj.css("height", box_height_px + "px");
+                    if (pic_li_obj.length <= 1) // 没有li则不往下执行
+                        return;
+                    pic_li_obj.css("width", box_width_px + "px");
+                    pic_li_obj.css("height", box_height_px + "px");
+                }
 
-                var pic_ul_obj = $(box_obj.find("ul.pic_ul")); // 图片ul对象
-                var ul_width_px = box_width_px * pic_li_obj.length;
+                if (pic_li_obj.length == 0)
+                    this_obj.li_width_px = 0;
+                else {
+                    var _li_obj = $($(_paras.box_selector + " " + _paras.pic_ul_selector + " li")[0])
+                    this_obj.li_width_px = _li_obj.width() + parseFloat(_li_obj.css("margin-left").replace("px", "")) + parseFloat(_li_obj.css("margin-right").replace("px", ""));
+                }
+
+                var ul_width_px = this_obj.li_width_px * pic_li_obj.length;
+
                 pic_ul_obj.css("width", ul_width_px + "px");
 
                 n = 0;
@@ -131,17 +157,15 @@ var RotatingBanner = {
         if (this_obj.Rotating)
             return;
         this_obj.Rotating = true;
+        var _paras = this_obj.paras;
 
         if (!X)
-            X = 1;
+            X = _paras.distance;
 
-        var _paras = this_obj.clone(this_obj.paras);
         var ul_obj = $(_paras.box_selector + " " + _paras.pic_ul_selector);
 
         // 计算滚动后的left值
-        var ul_left_px_new = -X * this_obj.box_width_px;
-
-        console.log(ul_left_px_new);
+        var ul_left_px_new = -X * this_obj.li_width_px;
 
         // 执行滚动
         ul_obj.animate({
@@ -175,10 +199,11 @@ var RotatingBanner = {
         if (this_obj.Rotating)
             return;
         this_obj.Rotating = true;
+        var _paras = this_obj.paras;
 
         if (!X)
-            X = 1;
-        var _paras = this_obj.clone(this_obj.paras);
+            X = _paras.distance;
+
         var ul_obj = $(_paras.box_selector + " " + _paras.pic_ul_selector);
 
         var li_obj = $(ul_obj.find("li"));
@@ -187,7 +212,7 @@ var RotatingBanner = {
         var i = 0;
         for (; i < X; i++)
             $(li_obj[li_obj_len - (i + 1)]).prependTo(ul_obj);
-        ul_obj.css("left", -X * this_obj.box_width_px);
+        ul_obj.css("left", -X * this_obj.li_width_px);
 
         ul_obj.animate({
             "left": 0
@@ -211,7 +236,7 @@ var RotatingBanner = {
 
     // 切换圆点高亮
     changePoint: function(this_obj) {
-        var _paras = this_obj.clone(this_obj.paras);
+        var _paras = this_obj.paras;
         var obj = $(_paras.point_ul_selector + " li");
         obj.siblings("." + _paras.point_li_selected_className).removeClass(_paras.point_li_selected_className);
         $(obj[this_obj.banner_now]).addClass(_paras.point_li_selected_className);
@@ -219,7 +244,7 @@ var RotatingBanner = {
 
     // 监听圆点
     PointListener: function(this_obj) {
-        var _paras = this.clone(this_obj.paras);
+        var _paras = this_obj.paras;
         var obj = $(_paras.point_ul_selector + " li");
         $(obj[0]).addClass(_paras.point_li_selected_className);
         obj.on("touchstart mousedown", function(event) {
@@ -238,7 +263,7 @@ var RotatingBanner = {
 
     // 监听左箭头
     arrowLeftListener: function(this_obj) {
-        var _paras = this_obj.clone(this_obj.paras);
+        var _paras = this_obj.paras;
         $(_paras.arrow_left_selector).on("touchstart mousedown", function(event) {
             event.preventDefault();
             this_obj.scrollToRight(this_obj);
@@ -247,7 +272,7 @@ var RotatingBanner = {
 
     // 监听右箭头
     arrowRightListener: function(this_obj) {
-        var _paras = this_obj.clone(this_obj.paras);
+        var _paras = this_obj.paras;
         $(_paras.arrow_right_selector).on("touchstart mousedown", function(event) {
             event.preventDefault();
             this_obj.scrollToLeft(this_obj);
