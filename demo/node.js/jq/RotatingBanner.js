@@ -1,4 +1,4 @@
-// 1.4.1
+// 1.4.2
 var RotatingBanner = {
     Timeout_id: null, // 记录定时器ID，清除时用
     Rotating: false, // 记录当前是否在轮播

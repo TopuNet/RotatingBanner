@@ -1,4 +1,4 @@
-# RotatingBanner JS插件 v1.4.1
+# RotatingBanner JS插件 v1.4.2
 ###轮播Banner（不含样式）
 
 文件结构：
