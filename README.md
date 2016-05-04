@@ -39,6 +39,13 @@
 	        RotatingBanner_2.init(RotatingBanner_obj);
 	    });
 
+暂停自动轮播：
+		RotatingBanner_1.Pause();
+
+重启自动轮播：
+		RotatingBanner_1.reStart(direction); // direction:"left"||"right"，默认"left"
+
+
 更新历史：
 --------------
 v1.4.1
