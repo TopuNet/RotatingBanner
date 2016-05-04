@@ -24,6 +24,12 @@
             <li></li>
         </ul>
     </section>
+    <section class="ul_button">
+        <ul class="button">
+            <li>暂停</li>
+            <li>重启</li>
+        </ul>
+    </section>
     <section class="Effective min-content" <% // 效果2：图片展示，没有圆点，有小图，有箭头 %>>
         <ul class="point_ul">
             <li class="l1 selected"></li>
@@ -90,10 +96,19 @@
     $(function() {
         // 效果1
         var RotatingBanner_obj = {
-            autoPlay: "left"
+            autoPlay: "left",
+            delay: 2000
         };
         var RotatingBanner_1 = RotatingBanner.clone(RotatingBanner);
         RotatingBanner_1.init(RotatingBanner_obj);
+        $("section.ul_button li").click(function() {
+            var index = $(this).index();
+            if (index == 0) {
+                RotatingBanner_1.Pause();
+            } else {
+                RotatingBanner_1.reStart("right");
+            }
+        });
 
         // 效果2
         RotatingBanner_obj = {

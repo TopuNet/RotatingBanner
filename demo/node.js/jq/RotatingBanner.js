@@ -1,4 +1,4 @@
-// 1.3.1
+// 1.4.1
 var RotatingBanner = {
     Timeout_id: null, // 记录定时器ID，清除时用
     Rotating: false, // 记录当前是否在轮播
@@ -57,7 +57,7 @@ var RotatingBanner = {
 
         // 轮播
         if (_paras.autoPlay)
-            this.preRotating(this, _paras.autoPlay.toLowerCase(this));
+            this.preRotating(this, _paras.autoPlay.toLowerCase());
 
     },
 
@@ -89,7 +89,7 @@ var RotatingBanner = {
         var n = 0; // 解决某些浏览器resize执行两遍的bug
         var _paras = this_obj.paras;
         var box_obj = $(_paras.box_selector); // 盒对象
-                var pic_ul_obj = $(box_obj.find(_paras.pic_ul_selector)); // 图片ul对象
+        var pic_ul_obj = $(box_obj.find(_paras.pic_ul_selector)); // 图片ul对象
         var pic_li_obj = $(box_obj.find(_paras.pic_ul_selector + " li")); // 图片li对象
 
         $(window).resize(function() {
@@ -141,12 +141,14 @@ var RotatingBanner = {
             case "left":
             default:
                 this_obj.Timeout_id = setTimeout(function() {
-                    this_obj.scrollToLeft(this_obj);
+                    if(this_obj.paras.autoPlay)
+                        this_obj.scrollToLeft(this_obj);
                 }, this_obj.paras.delay);
                 break;
             case "right":
                 this_obj.Timeout_id = setTimeout(function() {
-                    this_obj.scrollToRight(this_obj)
+                    if(this_obj.paras.autoPlay)
+                        this_obj.scrollToRight(this_obj)
                 }, this_obj.paras.delay);
                 break;
         }
@@ -189,8 +191,8 @@ var RotatingBanner = {
             this_obj.Rotating = false;
 
             // 再次执行滚动（如autoPlay不为null）
-            if (_paras.autoPlay)
-                this_obj.preRotating(this_obj, _paras.autoPlay.toLowerCase());
+            if (this_obj.paras.autoPlay)
+                this_obj.preRotating(this_obj, this_obj.paras.autoPlay.toLowerCase());
         });
     },
 
@@ -229,8 +231,8 @@ var RotatingBanner = {
             this_obj.Rotating = false;
 
             // 再次执行滚动（如autoPlay不为null）
-            if (_paras.autoPlay)
-                this_obj.preRotating(this_obj, _paras.autoPlay.toLowerCase());
+            if (this_obj.paras.autoPlay)
+                this_obj.preRotating(this_obj, this_obj.paras.autoPlay.toLowerCase());
         });
     },
 
@@ -277,5 +279,18 @@ var RotatingBanner = {
             event.preventDefault();
             this_obj.scrollToLeft(this_obj);
         });
+    },
+
+    // 暂停自动播放
+    Pause: function() {
+        this.paras.autoPlay = null;
+    },
+
+    // 重启自动播放
+    reStart: function(direction) {
+        if (!this.paras.autoPlay) {
+            this.paras.autoPlay = direction || "left";
+            this.preRotating(this, direction);
+        }
     }
 }
