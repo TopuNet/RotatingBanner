@@ -49,6 +49,7 @@
 更新历史：
 --------------
 v1.4.3
+
 1. 修改bug：zepto不支持outerWidth()和outerHeight()
 
 v1.4.1
