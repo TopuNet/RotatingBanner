@@ -1,4 +1,4 @@
-# RotatingBanner JS插件 v1.4.2
+# RotatingBanner JS插件 v1.4.3
 ###轮播Banner（不含样式）
 
 文件结构：
@@ -48,6 +48,9 @@
 
 更新历史：
 --------------
+v1.4.3
+1. 修改bug：zepto不支持outerWidth()和outerHeight()
+
 v1.4.1
 
 1. 增加暂停自动轮播和重启自动轮播功能。

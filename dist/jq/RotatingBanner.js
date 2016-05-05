@@ -1,4 +1,4 @@
-// 1.4.1
+// 1.4.3
 var RotatingBanner = {
     Timeout_id: null, // 记录定时器ID，清除时用
     Rotating: false, // 记录当前是否在轮播
@@ -100,8 +100,8 @@ var RotatingBanner = {
 
         var resize_do = function() {
 
-            var box_width_px = _paras.box_width_px = box_obj.outerWidth();
-            var box_height_px = box_obj.outerHeight();
+            var box_width_px = _paras.box_width_px = $.outerWidth ? box_obj.outerWidth() : box_obj.width();
+            var box_height_px = _paras.box_height_px = $.outerHeight ? box_obj.outerHeight() : box_obj.height();
 
             setTimeout(function() {
                 if (_paras.resize_li) {
