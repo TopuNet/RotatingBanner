@@ -1,4 +1,4 @@
-# RotatingBanner JS插件 v1.4.3
+# RotatingBanner JS插件 v1.5.1
 ###轮播Banner（不含样式）
 
 文件结构：
@@ -30,12 +30,12 @@
 		        distance: null, // 自动轮播时，滚动距离：distance个li。默认为1
 		        delay: null // 动画间隔，毫秒。默认5000
         	};
-	        var RotatingBanner_1 = RotatingBanner.clone(RotatingBanner);
+	        var RotatingBanner_1 = new RotatingBanner();
 	        RotatingBanner_1.init(RotatingBanner_obj);
 
 	        // Banner2
 	        RotatingBanner_obj = { };
-	        var RotatingBanner_2 = RotatingBanner.clone(RotatingBanner);
+	        var RotatingBanner_2 = new RotatingBanner();
 	        RotatingBanner_2.init(RotatingBanner_obj);
 	    });
 
@@ -48,6 +48,11 @@
 
 更新历史：
 --------------
+v1.5.1
+
+1. 优化内部代码结构。
+2. 相应的，修改调用代码
+
 v1.4.3
 
 1. 修改bug：zepto不支持outerWidth()和outerHeight()

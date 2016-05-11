@@ -99,7 +99,7 @@
             autoPlay: "left",
             delay: 2000
         };
-        var RotatingBanner_1 = RotatingBanner.clone(RotatingBanner);
+        var RotatingBanner_1 = new RotatingBanner();
         RotatingBanner_1.init(RotatingBanner_obj);
         $("section.ul_button li").click(function() {
             var index = $(this).index();
@@ -117,7 +117,7 @@
             arrow_left_selector: "body.demo section.Effective div.arrow_left", // 左箭头的盒选择器，此盒不必存在于box_selector中。null为无左箭头。默认值：null
             arrow_right_selector: "body.demo section.Effective div.arrow_right" // 右箭头的盒选择器，此盒不必存在于box_selector中。null为无右箭头。默认值：null
         };
-        var RotatingBanner_2 = RotatingBanner.clone(RotatingBanner);
+        var RotatingBanner_2 = new RotatingBanner();
         RotatingBanner_2.init(RotatingBanner_obj);
 
         // 效果3
@@ -130,7 +130,7 @@
             resize_li: false, // 自动改变li的宽高为外盒的宽高，默认true
             distance: 1 // 自动轮播时，滚动距离：distance个li。默认为1
         };
-        var RotatingBanner_3 = RotatingBanner.clone(RotatingBanner);
+        var RotatingBanner_3 = new RotatingBanner();
         RotatingBanner_3.init(RotatingBanner_obj);
 
         // 效果4
@@ -143,7 +143,7 @@
             resize_li: false, // 自动改变li的宽高为外盒的宽高，默认true
             distance: 4 // 自动轮播时，滚动距离：distance个li。默认为1
         };
-        var RotatingBanner_4 = RotatingBanner.clone(RotatingBanner);
+        var RotatingBanner_4 = new RotatingBanner();
         RotatingBanner_4.init(RotatingBanner_obj);
     });
     </script>
