@@ -132,7 +132,7 @@ app.use(function(req, res, next) {
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
     res.status(200);
-    res.render("demo.html")
+    res.render("demo_requirejs.html")
 });
 
 

@@ -1,4 +1,4 @@
-// 1.5.1
+// 1.6.1
 function RotatingBanner() {
     return {
         Timeout_id: null, // 记录定时器ID，清除时用
@@ -281,4 +281,10 @@ function RotatingBanner() {
             }
         }
     }
+}
+
+if (typeof define === "function" && define.amd) {
+    define(function() {
+        return RotatingBanner;
+    })
 }

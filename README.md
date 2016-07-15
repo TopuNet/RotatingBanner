@@ -1,19 +1,75 @@
-# RotatingBanner JS插件 v1.5.1
+# RotatingBanner JS插件 v1.6.1
 ###轮播Banner（不含样式）
+###兼容原生JS规范和AMD规范
+
+更新历史：
+--------------
+v1.6.1
+
+		1. 兼容原生JS和AMD规范
+		2. 修改demo
+
+v1.5.1
+
+		1. 优化内部代码结构。
+		2. 相应的，修改调用代码
+
+v1.4.3
+
+		1. 修改bug：zepto不支持outerWidth()和outerHeight()
+
+v1.4.1
+
+		1. 增加暂停自动轮播和重启自动轮播功能。
+		2. 修改一些小bug。
+
+v1.3.1
+
+		1. 修复插件内clone方法使用过多导致内存溢出的bug。
+		2. 修复多处ul盒选择器未使用传参值的bug。
+		3. 增加参数：resize_li和distance。目的见4。相应的，修改功能配置及启用代码。
+		4. 支持图片列表轮播时一屏内显示多张图片，并支持一次滚动一屏或滚动n张图片的选择。
+		5. 修改demo。
+
+v1.2.2:
+
+		修复BUG：点击圆点滚动多屏时滚动终止位置不对。
+
+v1.2.1：
+
+		1. 修改参数 pic_ul_selector和point_ul_selector注释。
+		2. 圆点li的选择器，不再固定于box_selector内，方便调用时灵活放置圆点（比如可以小缩略图的形式展现大图，点击则切换到相应大图）。
+		3. 上一个版本中的demo在demo.html页传参测试忘复原了，已复原。
+		4. 同一页面支持多个轮播。相应的，修改功能配置及启用代码。
+		5. 增加左右箭头，点击时滚动一屏。
+		6. 修改demo
+
+v1.1.1：
+
+		增加参数：圆点高亮li的样式名
 
 文件结构：
 -------------
-1. RotatingBanner.js 放入项目文件夹jq中
+
+		1. RotatingBanner.js 放入项目文件夹jq（原生规范）或widget/lib（AMD规范）中
 
 页面引用：
 -------------
-1. 在页面中布局轮播图样式，可参考demo
-2. 页面底端引用最新版 /inc/Jquery.min.js#1.x.x
-3. Jquery后引用 /jq/RotatingBanner.js
+
+		1. 在页面中布局轮播图样式，可参考demo
+
+原生引用：
+
+		2. 页面底端引用最新版 /inc/Jquery.min.js#1.x.x
+		3. Jquery后引用 /jq/RotatingBanner.js
+
+requireJS引用：
+        
+        2. 依赖RotatingBanner.js和(jquery.min.js#1.x 或 zepto.js)，成功后返回对象RotatingBanner
+
 
 功能配置及启用：
 --------------
-页面底部调用初始化方法并传参：
 
 		$(function() {
 			// Banner1
@@ -45,42 +101,3 @@
 重启自动轮播：
 		RotatingBanner_1.reStart(direction); // direction:"left"||"right"，默认"left"
 
-
-更新历史：
---------------
-v1.5.1
-
-1. 优化内部代码结构。
-2. 相应的，修改调用代码
-
-v1.4.3
-
-1. 修改bug：zepto不支持outerWidth()和outerHeight()
-
-v1.4.1
-
-1. 增加暂停自动轮播和重启自动轮播功能。
-2. 修改一些小bug。
-
-v1.3.1
-
-1. 修复插件内clone方法使用过多导致内存溢出的bug。
-2. 修复多处ul盒选择器未使用传参值的bug。
-3. 增加参数：resize_li和distance。目的见4。相应的，修改功能配置及启用代码。
-4. 支持图片列表轮播时一屏内显示多张图片，并支持一次滚动一屏或滚动n张图片的选择。
-5. 修改demo。
-
-v1.2.2:
-修复BUG：点击圆点滚动多屏时滚动终止位置不对。
-
-v1.2.1：
-
-1. 修改参数 pic_ul_selector和point_ul_selector注释。
-2. 圆点li的选择器，不再固定于box_selector内，方便调用时灵活放置圆点（比如可以小缩略图的形式展现大图，点击则切换到相应大图）。
-3. 上一个版本中的demo在demo.html页传参测试忘复原了，已复原。
-4. 同一页面支持多个轮播。相应的，修改功能配置及启用代码。
-5. 增加左右箭头，点击时滚动一屏。
-6. 修改demo
-
-v1.1.1：
-增加参数：圆点高亮li的样式名
