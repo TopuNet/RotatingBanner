@@ -96,8 +96,10 @@ requireJS引用：
 	    });
 
 暂停自动轮播：
+
 		RotatingBanner_1.Pause();
 
 重启自动轮播：
+
 		RotatingBanner_1.reStart(direction); // direction:"left"||"right"，默认"left"
 
