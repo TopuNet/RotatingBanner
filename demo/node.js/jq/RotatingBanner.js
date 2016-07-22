@@ -1,4 +1,4 @@
-// 1.6.1
+// 1.6.2
 function RotatingBanner() {
     return {
         Timeout_id: null, // 记录定时器ID，清除时用

@@ -1,0 +1,22 @@
+{
+  "name": "TopuNet-RotatingBanner",
+  "version": "1.6.2",
+  "description": "Topu.net 轮播Banner",
+  "main": "jq/RotatingBanner.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TopuNet/RotatingBanner.git"
+  },
+  "keywords": [
+    "topu.net"
+  ],
+  "author": "Topu.net",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TopuNet/RotatingBanner/issues"
+  },
+  "homepage": "https://github.com/TopuNet/RotatingBanner#readme"
+}

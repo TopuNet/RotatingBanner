@@ -1,9 +1,14 @@
-# RotatingBanner JS插件 v1.6.1
+# RotatingBanner JS插件 v1.6.2
 ###轮播Banner（不含样式）
 ###兼容原生JS规范和AMD规范
 
 更新历史：
 --------------
+v1.6.2
+
+		1. 在dist文件夹中，增加package.json
+		2. 将dist发布到npm：TopuNet-RotatingBanner
+
 v1.6.1
 
 		1. 兼容原生JS和AMD规范
