@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Rotating Banner</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <!--[if lte IE 9]><script type="text/javascript" src="/inc/html5shiv.min.js"></script><![endif]-->
+    <link href="/css/mobile.css" rel="stylesheet" />
+</head>
+
+<body class="demo">
+    <section class="box">
+        <section class="banner">
+            <ul class="pic_ul">
+                <li class="li_click" style="background:url(<% // 这里服务器端动态赋值 %>/Uploadfile/temp/banner_01.jpg); background-position: center;" url="http://www.sina.com" target="_blank"></li>
+                <li class="li_click" style="background:url(/Uploadfile/temp/banner_02.jpg); background-position: center;" url="http://www.baidu.com" target="_blank"></li>
+                <li class="li_click" style="background:url(/Uploadfile/temp/banner_01.jpg); background-position: center;" url="http://www.qq.com" target="_blank"></li>
+                <li class="li_click" style="background:url(/Uploadfile/temp/banner_02.jpg); background-position: center;" url="http://www.topu.net" target="_blank"></li>
+            </ul>
+        </section>
+    </section>
+    <script src="/inc/zepto.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="/jq/RotatingBanner.js"></script>
+    <script type="text/javascript" src="/jq/mobile_stop_moved.js"></script>
+    <script type="text/javascript">
+    $(function() {
+        var mobile_stop_moved_opt = {
+            selector: "section.box", // 容器盒选择器（resize_toWindow为false时，需要在样式表中将此盒定高），无默认值
+            scroll: false, // 盒内可滚动，默认true
+            resize_toWindow: false // 将容器盒自动设置为有效窗口高度(window.innerHeight)，并监听窗口大小改变——解决ios safari浏览器底部工具栏遮挡页面的问题，默认true
+        };
+        mobile_stop_moved.init(mobile_stop_moved_opt);
+
+        var RotatingBanner_obj = {
+            mobile_effect: true, // 移动端效果：touchstart暂停、touchend重启并判断touchmove-x距离决定是否左右滑屏1次。默认false
+            // mobile_effect_touchmove_distance_vw: null, // 采用移动端效果时，监听触摸滑屏的起效距离，默认10vw
+            autoPlay: "left", // 自动播放：left/right/null，默认值：null
+            box_selector: "body.demo section.banner", // 外盒选择器，默认值：section.banner
+            pic_ul_selector: "ul.pic_ul", // 图片li的ul盒选择器，此盒必须存在于box_selector中，且值中不用包含box_selector。默认值：ul.pic_ul
+            // point_ul_selector: null, // 圆点li的ul盒选择器，空字符串为无圆点。此盒不必存在于box_selector中。默认值：section.banner ul.point_ul。
+            // point_li_selected_className: null, // 圆点高亮li的className，默认值：selected
+            // arrow_left_selector: null, // 左箭头的盒选择器，此盒不必存在于box_selector中。null为无左箭头。默认值：null
+            // arrow_right_selector: null, // 右箭头的盒选择器，此盒不必存在于box_selector中。null为无右箭头。默认值：null
+            // duration: null, // 动画过渡时间，毫秒。默认500
+            // resize_li: null, // 自动改变li的宽高为外盒的宽高，默认true
+            // distance: null, // 自动轮播时，滚动距离：distance个li。默认为1
+            delay: 2000 // 动画间隔，毫秒。默认5000
+        };
+        var RotatingBanner_1 = new RotatingBanner();
+        RotatingBanner_1.init(RotatingBanner_obj);
+    });
+    </script>
+</body>
+
+</html>

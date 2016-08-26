@@ -1,4 +1,4 @@
-// 1.6.2
+// 1.7.1
 function RotatingBanner() {
     return {
         Timeout_id: null, // 记录定时器ID，清除时用
@@ -7,8 +7,11 @@ function RotatingBanner() {
         banner_now: 0, // 当前显示banner
         box_width_px: null, // 外盒宽度，后续程序中获得
         li_width_px: null, // li宽度（含margin），后续程序中获得
+        autoPlay: null, // 最原始传参的autoPlay（移动端touchend重启轮播用）
         // 参数集
         paras: {
+            mobile_effect: null, // 移动端效果：touchstart暂停、touchend重启并判断touchmove-x距离决定是否左右滑屏1次。默认false
+            mobile_effect_touchmove_distance_vw: null, // 采用移动端效果时，监听触摸滑屏的起效距离，默认30vw
             autoPlay: null, // 自动播放：left/right/null，默认值：null
             box_selector: null, // 外盒选择器，默认值：section.banner
             pic_ul_selector: null, // 图片li的ul盒选择器，此盒必须存在于box_selector中，且值中不用包含box_selector。默认值：ul.pic_ul
@@ -24,6 +27,8 @@ function RotatingBanner() {
         init: function(_paras) {
 
             var paras_default = {
+                mobile_effect: false,
+                mobile_effect_touchmove_distance_vw: 30,
                 autoPlay: null,
                 box_selector: "section.banner",
                 pic_ul_selector: "ul.pic_ul",
@@ -38,6 +43,7 @@ function RotatingBanner() {
             };
             this.paras = $.extend(paras_default, _paras);
             _paras = this.paras;
+            this.autoPlay = _paras.autoPlay;
 
             // 图片数量
             this.banner_count = $(_paras.box_selector + " " + _paras.pic_ul_selector + " li").length;
@@ -61,6 +67,9 @@ function RotatingBanner() {
             if (_paras.autoPlay)
                 this.preRotating(_paras.autoPlay.toLowerCase());
 
+            // 移动端效果
+            if (_paras.mobile_effect)
+                this.MobileEffectListen();
         },
 
         // 监听重置窗口大小
@@ -279,6 +288,51 @@ function RotatingBanner() {
                 this.paras.autoPlay = direction || "left";
                 this.preRotating(this.paras.autoPlay);
             }
+        },
+
+        // 移动端效果监听
+        MobileEffectListen() {
+            var this_obj = this;
+            var _paras = this_obj.paras;
+            var pic_ul_obj = $(_paras.box_selector + " " + _paras.pic_ul_selector);
+            var touchstart_x;
+            var touchend_x;
+            var window_width_px = $(window).width();
+
+            // touchstart
+            pic_ul_obj.on("touchstart", function(event) {
+                touchstart_x = event.touches[0].clientX;
+                this_obj.Pause();
+            });
+
+            // touchmove
+            pic_ul_obj.on("touchmove", function(event) {
+                touchend_x = event.touches[0].clientX;
+            });
+
+            // touchend
+            pic_ul_obj.on("touchend", function(event) {
+                var distance_vw = (touchend_x - touchstart_x) / window_width_px * 100;
+                var duration = 0;
+
+                // 验证横向位移是否超过阈值
+                if (distance_vw >= _paras.mobile_effect_touchmove_distance_vw || distance_vw <= -_paras.mobile_effect_touchmove_distance_vw) {
+
+                    duration = _paras.duration;
+
+                    if (distance_vw < 0)
+                        this_obj.scrollToLeft();
+                    else {
+                        this_obj.scrollToRight();
+                    }
+                }
+
+                if (this_obj.autoPlay)
+                    setTimeout(function() {
+                        this_obj.reStart(this_obj.autoPlay);
+                    }, duration);
+
+            });
         }
     }
 }
