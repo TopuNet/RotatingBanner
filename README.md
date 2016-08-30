@@ -1,4 +1,4 @@
-# RotatingBanner JS插件 v1.7.1
+# RotatingBanner JS插件 v1.7.2
 ###轮播Banner（不含样式）
 ###安装：npm install TopuNet-RotatingBanner
 
@@ -62,6 +62,10 @@ requireJS引用：
 
 更新历史：
 --------------
+v1.7.2
+
+		1. 修改安卓微信浏览器的bug
+
 v1.7.1
 
 		1. 增加移动端支持：touchstart暂停、touchend重启 并 判断touchmove-x距离决定是否左右滑屏1次。修改相应调用。

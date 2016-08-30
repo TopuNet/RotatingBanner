@@ -291,7 +291,7 @@ function RotatingBanner() {
         },
 
         // 移动端效果监听
-        MobileEffectListen() {
+        MobileEffectListen: function() {
             var this_obj = this;
             var _paras = this_obj.paras;
             var pic_ul_obj = $(_paras.box_selector + " " + _paras.pic_ul_selector);
