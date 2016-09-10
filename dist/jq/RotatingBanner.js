@@ -1,4 +1,4 @@
-// 1.7.2
+// 1.7.3
 function RotatingBanner() {
     return {
         Timeout_id: null, // 记录定时器ID，清除时用
@@ -52,7 +52,7 @@ function RotatingBanner() {
             this.resize();
 
             // 监听圆点
-            if (_paras.point_ul_selector != "")
+            if (_paras.point_ul_selector !== "")
                 this.PointListener();
 
             // 监听左箭头
@@ -82,7 +82,7 @@ function RotatingBanner() {
             var pic_li_obj = $(box_obj.find(_paras.pic_ul_selector + " li")); // 图片li对象
 
             $(window).resize(function() {
-                if (++n % 2 == 0)
+                if (++n % 2 === 0)
                     return;
                 resize_do();
             });
@@ -102,10 +102,10 @@ function RotatingBanner() {
                         pic_li_obj.css("height", box_height_px + "px");
                     }
 
-                    if (pic_li_obj.length == 0)
+                    if (pic_li_obj.length === 0)
                         this_obj.li_width_px = 0;
                     else {
-                        var _li_obj = $($(_paras.box_selector + " " + _paras.pic_ul_selector + " li")[0])
+                        var _li_obj = $($(_paras.box_selector + " " + _paras.pic_ul_selector + " li")[0]);
                         this_obj.li_width_px = _li_obj.width() + parseFloat(_li_obj.css("margin-left").replace("px", "")) + parseFloat(_li_obj.css("margin-right").replace("px", ""));
                     }
 
@@ -127,18 +127,23 @@ function RotatingBanner() {
         preRotating: function(direct) {
             var this_obj = this;
             clearTimeout(this_obj.Timeout_id);
+            var switch_left_default = function() {
+                this_obj.Timeout_id = setTimeout(function() {
+                    if (this_obj.paras.autoPlay)
+                        this_obj.scrollToLeft();
+                }, this_obj.paras.delay);
+            };
             switch (direct.toLowerCase()) {
                 case "left":
+                    switch_left_default();
+                    break;
                 default:
-                    this_obj.Timeout_id = setTimeout(function() {
-                        if (this_obj.paras.autoPlay)
-                            this_obj.scrollToLeft();
-                    }, this_obj.paras.delay);
+                    switch_left_default();
                     break;
                 case "right":
                     this_obj.Timeout_id = setTimeout(function() {
                         if (this_obj.paras.autoPlay)
-                            this_obj.scrollToRight()
+                            this_obj.scrollToRight();
                     }, this_obj.paras.delay);
                     break;
             }
@@ -311,7 +316,7 @@ function RotatingBanner() {
             });
 
             // touchend
-            pic_ul_obj.on("touchend", function(event) {
+            pic_ul_obj.on("touchend", function() {
                 var distance_vw = (touchend_x - touchstart_x) / window_width_px * 100;
                 var duration = 0;
 
@@ -334,11 +339,11 @@ function RotatingBanner() {
 
             });
         }
-    }
+    };
 }
 
 if (typeof define === "function" && define.amd) {
     define(function() {
         return RotatingBanner;
-    })
+    });
 }

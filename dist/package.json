@@ -1,6 +1,6 @@
 {
   "name": "TopuNet-RotatingBanner",
-  "version": "1.7.2",
+  "version": "1.7.3",
   "description": "Topu.net 轮播Banner",
   "main": "jq/RotatingBanner.js",
   "scripts": {

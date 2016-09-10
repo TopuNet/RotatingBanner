@@ -1,4 +1,4 @@
-# RotatingBanner JS插件 v1.7.2
+# RotatingBanner JS插件 v1.7.3
 ###轮播Banner（不含样式）
 ###安装：npm install TopuNet-RotatingBanner
 
@@ -62,6 +62,10 @@ requireJS引用：
 
 更新历史：
 --------------
+v1.7.3
+
+		1. 通过jshint验证
+
 v1.7.2
 
 		1. 修改安卓微信浏览器的bug
