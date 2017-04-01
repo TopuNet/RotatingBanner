@@ -1,4 +1,4 @@
-# RotatingBanner JS插件 v1.7.3
+# RotatingBanner JS插件 v1.7.4
 ###轮播Banner（不含样式）
 ###安装：npm install TopuNet-RotatingBanner
 
@@ -62,6 +62,11 @@ requireJS引用：
 
 更新历史：
 --------------
+v1.7.4
+
+		1. 解决只有一张图片且resize_li为true时，图片不显示的bug
+		2. 当只有一张图片或没有图片时，不自动轮播，也不监听小圆点及左右箭头的点击事件
+
 v1.7.3
 
 		1. 通过jshint验证

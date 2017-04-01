@@ -1,4 +1,4 @@
-// 1.7.3
+// 1.7.4
 function RotatingBanner() {
     return {
         Timeout_id: null, // 记录定时器ID，清除时用
@@ -51,25 +51,27 @@ function RotatingBanner() {
             // 监听重置窗口大小
             this.resize();
 
-            // 监听圆点
-            if (_paras.point_ul_selector !== "")
-                this.PointListener();
+            if (this.pic_length > 1) {
+                // 监听圆点
+                if (_paras.point_ul_selector !== "")
+                    this.PointListener();
 
-            // 监听左箭头
-            if (_paras.arrow_left_selector)
-                this.arrowLeftListener();
+                // 监听左箭头
+                if (_paras.arrow_left_selector)
+                    this.arrowLeftListener();
 
-            // 监听右箭头
-            if (_paras.arrow_right_selector)
-                this.arrowRightListener();
+                // 监听右箭头
+                if (_paras.arrow_right_selector)
+                    this.arrowRightListener();
 
-            // 轮播
-            if (_paras.autoPlay)
-                this.preRotating(_paras.autoPlay.toLowerCase());
+                // 轮播
+                if (_paras.autoPlay)
+                    this.preRotating(_paras.autoPlay.toLowerCase());
 
-            // 移动端效果
-            if (_paras.mobile_effect)
-                this.MobileEffectListen();
+                // 移动端效果
+                if (_paras.mobile_effect)
+                    this.MobileEffectListen();
+            }
         },
 
         // 监听重置窗口大小
@@ -80,6 +82,8 @@ function RotatingBanner() {
             var box_obj = $(_paras.box_selector); // 盒对象
             var pic_ul_obj = $(box_obj.find(_paras.pic_ul_selector)); // 图片ul对象
             var pic_li_obj = $(box_obj.find(_paras.pic_ul_selector + " li")); // 图片li对象
+
+            this_obj.pic_length = pic_li_obj.length;
 
             $(window).resize(function() {
                 if (++n % 2 === 0)
@@ -96,7 +100,7 @@ function RotatingBanner() {
                     if (_paras.resize_li) {
 
 
-                        if (pic_li_obj.length <= 1) // 没有li则不往下执行
+                        if (this_obj.pic_length < 1) // 没有li则不往下执行
                             return;
                         pic_li_obj.css("width", box_width_px + "px");
                         pic_li_obj.css("height", box_height_px + "px");
