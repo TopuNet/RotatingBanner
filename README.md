@@ -1,6 +1,6 @@
 # RotatingBanner JS插件 v1.7.4
-###轮播Banner（不含样式）
-###安装：npm install TopuNet-RotatingBanner
+### 轮播Banner（不含样式）
+### 安装：npm install TopuNet-RotatingBanner
 
 文件结构：
 -------------
