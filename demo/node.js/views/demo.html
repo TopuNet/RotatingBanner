@@ -16,12 +16,9 @@
             <li class="li_click" style="background:url(/Uploadfile/temp/banner_02.jpg); background-position: center;" url="http://www.baidu.com" target="_blank"></li>
             <li class="li_click" style="background:url(/Uploadfile/temp/banner_01.jpg); background-position: center;" url="http://www.qq.com" target="_blank"></li>
             <li class="li_click" style="background:url(/Uploadfile/temp/banner_02.jpg); background-position: center;" url="http://www.topu.net" target="_blank"></li>
+            <li class="li_click" style="background:url(<% // 这里服务器端动态赋值 %>/Uploadfile/temp/banner_01.jpg); background-position: center;" url="http://www.sina.com" target="_blank"></li>
         </ul>
-        <ul class="point_ul" <% // 有几个圆点，就放几个li %>>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
+        <ul class="point_ul" <% // 圆点的ul盒，自动生成li %>>
         </ul>
     </section>
     <section class="ul_button">
@@ -97,6 +94,8 @@
         // 效果1
         var RotatingBanner_obj = {
             autoPlay: "left",
+            distance: 2,
+            point_autoCreate: true,
             delay: 2000
         };
         var RotatingBanner_1 = new RotatingBanner();

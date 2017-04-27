@@ -1,10 +1,10 @@
-// 1.7.4
+// 1.7.5
 function RotatingBanner() {
     return {
         Timeout_id: null, // 记录定时器ID，清除时用
         Rotating: false, // 记录当前是否在轮播
-        banner_count: null, // banner数量
-        banner_now: 0, // 当前显示banner
+        pointer_count: null, // 屏数量
+        pointer_now: 0, // 当前高亮圆点
         box_width_px: null, // 外盒宽度，后续程序中获得
         li_width_px: null, // li宽度（含margin），后续程序中获得
         autoPlay: null, // 最原始传参的autoPlay（移动端touchend重启轮播用）
@@ -16,12 +16,13 @@ function RotatingBanner() {
             box_selector: null, // 外盒选择器，默认值：section.banner
             pic_ul_selector: null, // 图片li的ul盒选择器，此盒必须存在于box_selector中，且值中不用包含box_selector。默认值：ul.pic_ul
             point_ul_selector: null, // 圆点li的ul盒选择器，空字符串为无圆点。此盒不必存在于box_selector中。默认值：section.banner ul.point_ul。
+            point_autoCreate: null, // 自动生成圆点，默认值：false
             point_li_selected_className: null, // 圆点高亮li的className，默认值：selected
             arrow_left_selector: null, // 左箭头的盒选择器，此盒不必存在于box_selector中。null为无左箭头。默认值：null
             arrow_right_selector: null, // 右箭头的盒选择器，此盒不必存在于box_selector中。null为无右箭头。默认值：null
             duration: null, // 动画过渡时间，毫秒。默认500
             resize_li: null, // 自动改变li的宽高为外盒的宽高，默认true
-            distance: null, // 自动轮播时，滚动距离：distance个li。默认为1
+            distance: null, // 自动轮播和圆点点击时，滚动距离：distance个li；同时为圆点高亮移动的位数。默认为1
             delay: null // 动画间隔，毫秒。默认5000
         },
         init: function(_paras) {
@@ -33,6 +34,7 @@ function RotatingBanner() {
                 box_selector: "section.banner",
                 pic_ul_selector: "ul.pic_ul",
                 point_ul_selector: "section.banner ul.point_ul",
+                point_autoCreate: false,
                 point_li_selected_className: "selected",
                 arrow_left_selector: null,
                 arrow_right_selector: null,
@@ -45,8 +47,22 @@ function RotatingBanner() {
             _paras = this.paras;
             this.autoPlay = _paras.autoPlay;
 
-            // 图片数量
-            this.banner_count = $(_paras.box_selector + " " + _paras.pic_ul_selector + " li").length;
+            // 屏数量
+            var pointer_count = $(_paras.box_selector + " " + _paras.pic_ul_selector + " li").length;
+            this.pointer_count = parseInt(pointer_count / _paras.distance);
+            if (pointer_count % _paras.distance !== 0)
+                this.pointer_count++;
+
+            // 创建圆点
+            if (_paras.point_autoCreate) {
+                var pointer_ul = $(_paras.point_ul_selector);
+                var pointer_li = $(document.createElement("li"));
+                var _i = 0;
+                pointer_ul.html("");
+                for (; _i < this.pointer_count; _i++) {
+                    pointer_li.clone().appendTo(pointer_ul);
+                }
+            }
 
             // 监听重置窗口大小
             this.resize();
@@ -153,8 +169,8 @@ function RotatingBanner() {
             }
         },
 
-        // 向左滚X屏
-        scrollToLeft: function(X) {
+        // 向左滚X屏和Y个圆点位
+        scrollToLeft: function(X, Y) {
             var this_obj = this;
             if (this_obj.Rotating)
                 return;
@@ -163,6 +179,8 @@ function RotatingBanner() {
 
             if (!X)
                 X = _paras.distance;
+            if (!Y)
+                Y = 1;
 
             var ul_obj = $(_paras.box_selector + " " + _paras.pic_ul_selector);
 
@@ -180,10 +198,11 @@ function RotatingBanner() {
                 }
                 ul_obj.css("left", 0);
 
-                // 切换banner_now
-                this_obj.banner_now += X;
-                if (this_obj.banner_now >= this_obj.banner_count)
-                    this_obj.banner_now = 0;
+                // 切换pointer_now和pointer_now
+                this_obj.pointer_now += Y;
+                if (this_obj.pointer_now >= this_obj.pointer_count) {
+                    this_obj.pointer_now = 0;
+                }
 
                 // 切换圆点
                 this_obj.changePoint();
@@ -196,8 +215,8 @@ function RotatingBanner() {
             });
         },
 
-        // 向右滚X屏
-        scrollToRight: function(X) {
+        // 向右滚X屏和Y个圆点位
+        scrollToRight: function(X, Y) {
             var this_obj = this;
             if (this_obj.Rotating)
                 return;
@@ -206,6 +225,8 @@ function RotatingBanner() {
 
             if (!X)
                 X = _paras.distance;
+            if (!Y)
+                Y = 1;
 
             var ul_obj = $(_paras.box_selector + " " + _paras.pic_ul_selector);
 
@@ -221,10 +242,11 @@ function RotatingBanner() {
                 "left": 0
             }, _paras.duration, function() {
 
-                // 切换banner_now
-                this_obj.banner_now -= X;
-                if (this_obj.banner_now < 0)
-                    this_obj.banner_now = this_obj.banner_count - 1;
+                // 切换pointer_now
+                this_obj.pointer_now -= Y;
+                if (this_obj.pointer_now < 0) {
+                    this_obj.pointer_now = this_obj.pointer_count - 1;
+                }
 
                 // 切换圆点
                 this_obj.changePoint();
@@ -243,7 +265,7 @@ function RotatingBanner() {
             var _paras = this_obj.paras;
             var obj = $(_paras.point_ul_selector + " li");
             obj.siblings("." + _paras.point_li_selected_className).removeClass(_paras.point_li_selected_className);
-            $(obj[this_obj.banner_now]).addClass(_paras.point_li_selected_className);
+            $(obj[this_obj.pointer_now]).addClass(_paras.point_li_selected_className);
         },
 
         // 监听圆点
@@ -255,14 +277,14 @@ function RotatingBanner() {
             obj.on("touchstart mousedown", function(event) {
                 event.preventDefault();
                 var n = $(this).index();
-                if (n == this_obj.banner_now)
+                if (n == this_obj.pointer_now)
                     return;
 
                 // clearTimeout();
-                if (n < this_obj.banner_now)
-                    this_obj.scrollToRight(this_obj.banner_now - n);
-                if (n > this_obj.banner_now)
-                    this_obj.scrollToLeft(n - this_obj.banner_now);
+                if (n < this_obj.pointer_now)
+                    this_obj.scrollToRight((this_obj.pointer_now - n) * _paras.distance, this_obj.pointer_now - n);
+                if (n > this_obj.pointer_now)
+                    this_obj.scrollToLeft((n - this_obj.pointer_now) * _paras.distance, n - this_obj.pointer_now);
             });
         },
 

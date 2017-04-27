@@ -1,4 +1,4 @@
-# RotatingBanner JS插件 v1.7.4
+# RotatingBanner JS插件 v1.7.5
 ### 轮播Banner（不含样式）
 ### 安装：npm install TopuNet-RotatingBanner
 
@@ -34,12 +34,13 @@ requireJS引用：
 		        box_selector: null, // 外盒选择器，默认值：section.banner
 		        pic_ul_selector: null, // 图片li的ul盒选择器，此盒必须存在于box_selector中，且值中不用包含box_selector。默认值：ul.pic_ul
 		        point_ul_selector: null, // 圆点li的ul盒选择器，空字符串为无圆点。此盒不必存在于box_selector中。默认值：section.banner ul.point_ul。
+            	point_autoCreate: null, // 自动生成圆点，默认值：false
 		        point_li_selected_className: null, // 圆点高亮li的className，默认值：selected
 		        arrow_left_selector: null, // 左箭头的盒选择器，此盒不必存在于box_selector中。null为无左箭头。默认值：null
 		        arrow_right_selector: null, // 右箭头的盒选择器，此盒不必存在于box_selector中。null为无右箭头。默认值：null
 		        duration: null, // 动画过渡时间，毫秒。默认500
 		        resize_li: null, // 自动改变li的宽高为外盒的宽高，默认true
-		        distance: null, // 自动轮播时，滚动距离：distance个li。默认为1
+		        distance: null, // 自动轮播和圆点点击时，滚动距离：distance个li；同时为圆点高亮移动的位数。默认为1
 		        delay: null // 动画间隔，毫秒。默认5000
         	};
 	        var RotatingBanner_1 = new RotatingBanner();
@@ -62,6 +63,11 @@ requireJS引用：
 
 更新历史：
 --------------
+v1.7.5
+
+		1. 解决只有一张图片且resize_li为true时，图片不显示的bug
+		2. 当只有一张图片或没有图片时，不自动轮播，也不监听小圆点及左右箭头的点击事件
+
 v1.7.4
 
 		1. 解决只有一张图片且resize_li为true时，图片不显示的bug

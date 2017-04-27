@@ -4,6 +4,8 @@ require(["RotatingBanner", "/inc/jquery.min.js"], function(RotatingBanner) {
         // 效果1
         var RotatingBanner_obj = {
             autoPlay: "left",
+            distance: 1,
+            point_autoCreate: true,
             delay: 2000
         };
         var RotatingBanner_1 = new RotatingBanner();
