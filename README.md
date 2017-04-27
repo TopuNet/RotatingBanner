@@ -18,39 +18,37 @@
 		3. Jquery后引用 /jq/RotatingBanner.js
 
 requireJS引用：
-        
-        2. 依赖RotatingBanner.js和(jquery.min.js#1.x 或 zepto.js)，成功后返回对象RotatingBanner
+
+		2. 依赖RotatingBanner.js和(jquery.min.js#1.x 或 zepto.js)，成功后返回对象RotatingBanner
 
 
 功能配置及启用：
 --------------
 
-		$(function() {
-			// Banner1
-        	var RotatingBanner_obj = {
-	            mobile_effect: null, // 移动端效果：touchstart暂停、touchend重启并判断touchmove-x距离决定是否左右滑屏1次。默认false
-	            mobile_effect_touchmove_distance_vw: null, // 采用移动端效果时，监听触摸滑屏的起效距离，默认30vw
-		        autoPlay: null, // 自动播放：left/right/null，默认值：null
-		        box_selector: null, // 外盒选择器，默认值：section.banner
-		        pic_ul_selector: null, // 图片li的ul盒选择器，此盒必须存在于box_selector中，且值中不用包含box_selector。默认值：ul.pic_ul
-		        point_ul_selector: null, // 圆点li的ul盒选择器，空字符串为无圆点。此盒不必存在于box_selector中。默认值：section.banner ul.point_ul。
-            	point_autoCreate: null, // 自动生成圆点，默认值：false
-		        point_li_selected_className: null, // 圆点高亮li的className，默认值：selected
-		        arrow_left_selector: null, // 左箭头的盒选择器，此盒不必存在于box_selector中。null为无左箭头。默认值：null
-		        arrow_right_selector: null, // 右箭头的盒选择器，此盒不必存在于box_selector中。null为无右箭头。默认值：null
-		        duration: null, // 动画过渡时间，毫秒。默认500
-		        resize_li: null, // 自动改变li的宽高为外盒的宽高，默认true
-		        distance: null, // 自动轮播和圆点点击时，滚动距离：distance个li；同时为圆点高亮移动的位数。默认为1
-		        delay: null // 动画间隔，毫秒。默认5000
-        	};
-	        var RotatingBanner_1 = new RotatingBanner();
-	        RotatingBanner_1.init(RotatingBanner_obj);
+	// Banner1
+	var RotatingBanner_obj = {
+        	mobile_effect: null, // 移动端效果：touchstart暂停、touchend重启并判断touchmove-x距离决定是否左右滑屏1次。默认false
+        	mobile_effect_touchmove_distance_vw: null, // 采用移动端效果时，监听触摸滑屏的起效距离，默认30vw
+        	autoPlay: null, // 自动播放：left/right/null，默认值：null
+        	box_selector: null, // 外盒选择器，默认值：section.banner
+        	pic_ul_selector: null, // 图片li的ul盒选择器，此盒必须存在于box_selector中，且值中不用包含box_selector。默认值：ul.pic_ul
+        	point_ul_selector: null, // 圆点li的ul盒选择器，空字符串为无圆点。此盒不必存在于box_selector中。默认值：section.banner ul.point_ul。
+        	point_autoCreate: null, // 自动生成圆点，默认值：false
+        	point_li_selected_className: null, // 圆点高亮li的className，默认值：selected
+        	arrow_left_selector: null, // 左箭头的盒选择器，此盒不必存在于box_selector中。null为无左箭头。默认值：null
+        	arrow_right_selector: null, // 右箭头的盒选择器，此盒不必存在于box_selector中。null为无右箭头。默认值：null
+        	duration: null, // 动画过渡时间，毫秒。默认500
+        	resize_li: null, // 自动改变li的宽高为外盒的宽高，默认true
+        	distance: null, // 自动轮播和圆点点击时，滚动距离：distance个li；同时为圆点高亮移动的位数。默认为1
+        	delay: null // 动画间隔，毫秒。默认5000
+        };
+        var RotatingBanner_1 = new RotatingBanner();
+        RotatingBanner_1.init(RotatingBanner_obj);
 
-	        // Banner2
-	        RotatingBanner_obj = { };
-	        var RotatingBanner_2 = new RotatingBanner();
-	        RotatingBanner_2.init(RotatingBanner_obj);
-	    });
+        // Banner2
+        RotatingBanner_obj = { };
+        var RotatingBanner_2 = new RotatingBanner();
+        RotatingBanner_2.init(RotatingBanner_obj);
 
 暂停自动轮播：
 
