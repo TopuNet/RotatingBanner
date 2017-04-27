@@ -65,8 +65,10 @@ requireJS引用：
 --------------
 v1.7.5
 
-		1. 解决只有一张图片且resize_li为true时，图片不显示的bug
-		2. 当只有一张图片或没有图片时，不自动轮播，也不监听小圆点及左右箭头的点击事件
+		1. 解决一屏滚动多个单位元素时(distance>1)，圆点切换不对的bug
+		2. 增加point_autoCreate参数，为true时，自动清空point_ul盒，并根据屏数自动生成li
+		3. 修改distance参数注释
+		4. 修改demo
 
 v1.7.4
 
