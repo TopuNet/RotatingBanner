@@ -1,4 +1,4 @@
-# RotatingBanner JS插件 v1.7.5
+# RotatingBanner JS插件 v2.1.1
 ### 轮播Banner（不含样式）
 ### 安装：npm install TopuNet-RotatingBanner
 
@@ -61,6 +61,10 @@ requireJS引用：
 
 更新历史：
 --------------
+v2.1.1
+
+		1. 用transform(translateX)替代$.animate，暂没做IE9-兼容
+
 v1.7.5
 
 		1. 解决一屏滚动多个单位元素时(distance>1)，圆点切换不对的bug

@@ -1,4 +1,4 @@
-// 1.7.5
+// 2.1.1
 function RotatingBanner() {
     return {
         Timeout_id: null, // 记录定时器ID，清除时用
@@ -188,15 +188,17 @@ function RotatingBanner() {
             var ul_left_px_new = -X * this_obj.li_width_px;
 
             // 执行滚动
-            ul_obj.animate({
-                "left": ul_left_px_new
-            }, _paras.duration, function() {
-                var li_obj = $(ul_obj.find("li"));
+            this_obj.setTranslate.apply(this_obj, [ul_obj, _paras.duration, ul_left_px_new]);
+
+            // 滚动完成后的dom操作
+            setTimeout(function() {
+
+                var li_obj = ul_obj.find("li");
                 var i = 0;
                 for (; i < X; i++) {
                     $(li_obj[i]).appendTo(ul_obj);
                 }
-                ul_obj.css("left", 0);
+                this_obj.setTranslate.apply(this_obj, [ul_obj, 0, 0]);
 
                 // 切换pointer_now和pointer_now
                 this_obj.pointer_now += Y;
@@ -212,7 +214,8 @@ function RotatingBanner() {
                 // 再次执行滚动（如autoPlay不为null）
                 if (this_obj.paras.autoPlay)
                     this_obj.preRotating(this_obj.paras.autoPlay.toLowerCase());
-            });
+
+            }, _paras.duration);
         },
 
         // 向右滚X屏和Y个圆点位
@@ -236,11 +239,14 @@ function RotatingBanner() {
             var i = 0;
             for (; i < X; i++)
                 $(li_obj[li_obj_len - (i + 1)]).prependTo(ul_obj);
-            ul_obj.css("left", -X * this_obj.li_width_px);
 
-            ul_obj.animate({
-                "left": 0
-            }, _paras.duration, function() {
+            this_obj.setTranslate.apply(this_obj, [ul_obj, 0, -X * this_obj.li_width_px]);
+
+            setTimeout(function() {
+                this_obj.setTranslate.apply(this_obj, [ul_obj, _paras.duration, 0]);
+            }, 0);
+
+            setTimeout(function() {
 
                 // 切换pointer_now
                 this_obj.pointer_now -= Y;
@@ -256,7 +262,7 @@ function RotatingBanner() {
                 // 再次执行滚动（如autoPlay不为null）
                 if (this_obj.paras.autoPlay)
                     this_obj.preRotating(this_obj.paras.autoPlay.toLowerCase());
-            });
+            }, _paras.duration);
         },
 
         // 切换圆点高亮
@@ -363,6 +369,22 @@ function RotatingBanner() {
                         this_obj.reStart(this_obj.autoPlay);
                     }, duration);
 
+            });
+        },
+
+        // 设置translate-x样式
+        // obj: 设置对象
+        // duration: 动画时间，毫秒数
+        // x: translate-x值
+        setTranslate: function(obj, duration, x) {
+
+            obj.css({
+                "transition": "all " + duration * 0.001 + "s linear",
+                "transform": "translateX(" + x + "px)",
+                "-webkit-transform": "translateX(" + x + "px)",
+                "-moz-transform": "translateX(" + x + "px)",
+                "-o-transform": "translateX(" + x + "px)",
+                "-ms-transform": "translateX(" + x + "px)"
             });
         }
     };
