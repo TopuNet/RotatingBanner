@@ -1,4 +1,4 @@
-# RotatingBanner JS插件 v2.1.1
+# RotatingBanner JS插件 v2.1.2
 ### 轮播Banner（不含样式）
 ### 安装：npm install TopuNet-RotatingBanner
 
@@ -61,6 +61,10 @@ requireJS引用：
 
 更新历史：
 --------------
+v2.1.2
+
+		1. 做了IE9-兼容。IE9+用transition，IE9-用$.animate
+
 v2.1.1
 
 		1. 用transform(translateX)替代$.animate，暂没做IE9-兼容

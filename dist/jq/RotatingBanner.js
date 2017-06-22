@@ -1,4 +1,4 @@
-// 2.1.1
+// 2.1.2
 function RotatingBanner() {
     return {
         Timeout_id: null, // 记录定时器ID，清除时用
@@ -188,34 +188,32 @@ function RotatingBanner() {
             var ul_left_px_new = -X * this_obj.li_width_px;
 
             // 执行滚动
-            this_obj.setTranslate.apply(this_obj, [ul_obj, _paras.duration, ul_left_px_new]);
-
-            // 滚动完成后的dom操作
-            setTimeout(function() {
+            this_obj.setTranslate.apply(this_obj, [ul_obj, _paras.duration, ul_left_px_new, function(_this_obj, ul_obj) {
 
                 var li_obj = ul_obj.find("li");
                 var i = 0;
                 for (; i < X; i++) {
                     $(li_obj[i]).appendTo(ul_obj);
                 }
-                this_obj.setTranslate.apply(this_obj, [ul_obj, 0, 0]);
+                _this_obj.setTranslate.apply(_this_obj, [ul_obj, 0, 0]);
 
                 // 切换pointer_now和pointer_now
-                this_obj.pointer_now += Y;
-                if (this_obj.pointer_now >= this_obj.pointer_count) {
-                    this_obj.pointer_now = 0;
+                _this_obj.pointer_now += Y;
+                if (_this_obj.pointer_now >= _this_obj.pointer_count) {
+                    _this_obj.pointer_now = 0;
                 }
 
                 // 切换圆点
-                this_obj.changePoint();
+                _this_obj.changePoint();
 
-                this_obj.Rotating = false;
+                _this_obj.Rotating = false;
 
                 // 再次执行滚动（如autoPlay不为null）
-                if (this_obj.paras.autoPlay)
-                    this_obj.preRotating(this_obj.paras.autoPlay.toLowerCase());
+                if (_this_obj.paras.autoPlay)
+                    _this_obj.preRotating(_this_obj.paras.autoPlay.toLowerCase());
 
-            }, _paras.duration);
+
+            }]);
         },
 
         // 向右滚X屏和Y个圆点位
@@ -243,26 +241,24 @@ function RotatingBanner() {
             this_obj.setTranslate.apply(this_obj, [ul_obj, 0, -X * this_obj.li_width_px]);
 
             setTimeout(function() {
-                this_obj.setTranslate.apply(this_obj, [ul_obj, _paras.duration, 0]);
+                this_obj.setTranslate.apply(this_obj, [ul_obj, _paras.duration, 0, function(_this_obj) {
+
+                    // 切换pointer_now
+                    _this_obj.pointer_now -= Y;
+                    if (_this_obj.pointer_now < 0) {
+                        _this_obj.pointer_now = _this_obj.pointer_count - 1;
+                    }
+
+                    // 切换圆点
+                    _this_obj.changePoint();
+
+                    _this_obj.Rotating = false;
+
+                    // 再次执行滚动（如autoPlay不为null）
+                    if (_this_obj.paras.autoPlay)
+                        _this_obj.preRotating(_this_obj.paras.autoPlay.toLowerCase());
+                }]);
             }, 0);
-
-            setTimeout(function() {
-
-                // 切换pointer_now
-                this_obj.pointer_now -= Y;
-                if (this_obj.pointer_now < 0) {
-                    this_obj.pointer_now = this_obj.pointer_count - 1;
-                }
-
-                // 切换圆点
-                this_obj.changePoint();
-
-                this_obj.Rotating = false;
-
-                // 再次执行滚动（如autoPlay不为null）
-                if (this_obj.paras.autoPlay)
-                    this_obj.preRotating(this_obj.paras.autoPlay.toLowerCase());
-            }, _paras.duration);
         },
 
         // 切换圆点高亮
@@ -376,16 +372,38 @@ function RotatingBanner() {
         // obj: 设置对象
         // duration: 动画时间，毫秒数
         // x: translate-x值
-        setTranslate: function(obj, duration, x) {
+        // callback: 完成回调
+        setTranslate: function(obj, duration, x, callback) {
+            var this_obj = this;
 
-            obj.css({
-                "transition": "all " + duration * 0.001 + "s linear",
-                "transform": "translateX(" + x + "px)",
-                "-webkit-transform": "translateX(" + x + "px)",
-                "-moz-transform": "translateX(" + x + "px)",
-                "-o-transform": "translateX(" + x + "px)",
-                "-ms-transform": "translateX(" + x + "px)"
-            });
+            // 判断
+            var transition = obj[0].style.transition;
+            if (transition === undefined || transition === null) {
+
+                obj.animate({
+                    left: x + "px"
+                }, duration, function() {
+                    if (callback)
+                        callback(this_obj, obj);
+                });
+
+            } else {
+
+                obj.css({
+                    "transition": "all " + duration * 0.001 + "s linear",
+                    "transform": "translateX(" + x + "px)",
+                    "-webkit-transform": "translateX(" + x + "px)",
+                    "-moz-transform": "translateX(" + x + "px)",
+                    "-o-transform": "translateX(" + x + "px)",
+                    "-ms-transform": "translateX(" + x + "px)"
+                });
+
+                if (callback) {
+                    setTimeout(function() {
+                        callback(this_obj, obj);
+                    }, duration);
+                }
+            }
         }
     };
 }
