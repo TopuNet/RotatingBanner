@@ -28,9 +28,9 @@ requireJS引用：
 	// Banner1
 	var RotatingBanner_obj = {
             effect: null, // 过渡效果。move-横向移动；fade-淡出。默认 "move"
-        	mobile_effect: null, // 移动端效果：touchstart暂停、touchend重启并判断touchmove-x距离决定是否左右滑屏1次。默认false
+        	mobile_effect: null, // 移动端效果：touchstart暂停、touchend重启并判断touchmove-x距离决定是否左右滑屏1次。effect=move时有效。默认false
         	mobile_effect_touchmove_distance_vw: null, // 采用移动端效果时，监听触摸滑屏的起效距离，默认30vw
-        	autoPlay: null, // 自动播放：left/right/null，默认值：null
+        	autoPlay: null, // 自动播放：left/right/null，默认值：null。effect=move时，left和right效果一致
         	box_selector: null, // 外盒选择器，默认值：section.banner
         	pic_ul_selector: null, // 图片li的ul盒选择器，此盒必须存在于box_selector中，且值中不用包含box_selector。默认值：ul.pic_ul
         	point_ul_selector: null, // 圆点li的ul盒选择器，空字符串为无圆点。此盒不必存在于box_selector中。默认值：section.banner ul.point_ul。
@@ -40,7 +40,7 @@ requireJS引用：
         	arrow_right_selector: null, // 右箭头的盒选择器，此盒不必存在于box_selector中。null为无右箭头。默认值：null
         	duration: null, // 动画过渡时间，毫秒。默认500
         	resize_li: null, // 自动改变li的宽高为外盒的宽高，默认true
-        	distance: null, // 自动轮播和圆点点击时，滚动距离：distance个li；同时为圆点高亮移动的位数。默认为1
+        	distance: null, // 自动轮播和圆点点击时，滚动距离：distance个li；同时为圆点高亮移动的位数。effect=move时有效。默认为1。
         	delay: null // 动画间隔，毫秒。默认5000
         };
         var RotatingBanner_1 = new RotatingBanner();
