@@ -127,6 +127,10 @@ app.get('/mobile', function(req, res, next) {
     res.render("mobile.html")
 });
 
+app.get('/mobile_fade', function(req, res, next) {
+    res.render("mobile_fade.html")
+});
+
 app.use(function(req, res, next) {
     res.render("demo.html")
 });

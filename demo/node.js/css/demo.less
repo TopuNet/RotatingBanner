@@ -262,3 +262,59 @@
     cursor: pointer;
 }
 // end 效果4
+
+// 效果5
+@{page_name} section.banner_fade {
+    width: 100%;
+    min-width: @content_width;
+    height: 766px;
+    overflow: hidden;
+    position: relative;
+}
+
+// 图片
+@{page_name} section.banner_fade ul.pic_ul {
+    position: relative;
+}
+
+@{page_name} section.banner_fade ul.pic_ul li {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+// 圆点
+@{page_name} section.banner_fade ul.point_ul {
+    position: absolute;
+    width: 100%;
+    bottom: 15px;
+    text-align: center;
+}
+
+@{page_name} section.banner_fade ul.point_ul li {
+    .inline-block();
+    margin: 0 10px;
+    width: 14px;
+    height: 14px;
+    cursor: pointer;
+    border: solid 1px #B79F95;
+    .border-radius(7px);
+    &.selected {
+        border: solid 1px #666;
+        background: #666;
+        cursor: default;
+    }
+}
+
+@{page_name} section.ul_button ul.button{
+    width:100%;
+    text-align: center;
+}
+
+@{page_name} section.ul_button ul.button li{
+    display:inline-block;
+    cursor:pointer;
+    padding:10px;
+    width:100px;
+}
+// end 效果5

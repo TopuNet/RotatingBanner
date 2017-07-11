@@ -54,5 +54,22 @@ require(["RotatingBanner", "/inc/jquery.min.js"], function(RotatingBanner) {
         };
         var RotatingBanner_4 = new RotatingBanner();
         RotatingBanner_4.init(RotatingBanner_obj);
+
+        // 效果5
+        RotatingBanner_obj = {
+            effect: "fade",
+            autoPlay: "left",
+            box_selector: "body.demo section.banner_fade", // 外盒选择器，默认值：section.banner
+            point_ul_selector: "body.demo section.banner_fade ul.point_ul", // 圆点li的ul盒选择器，空字符串为无圆点。此盒不必存在于box_selector中。默认值：section.banner ul.point_ul。
+            arrow_left_selector: "body.demo section.banner_fade div.arrow_left", // 左箭头的盒选择器，此盒不必存在于box_selector中。null为无左箭头。默认值：null
+            arrow_right_selector: "body.demo section.banner_fade div.arrow_right", // 右箭头的盒选择器，此盒不必存在于box_selector中。null为无右箭头。默认值：null
+            resize_li: true, // 自动改变li的宽高为外盒的宽高，默认true
+            distance: 4, // 自动轮播时，滚动距离：distance个li。默认为1
+            duration: 800,
+            delay: 2000,
+            point_autoCreate: true
+        };
+        var RotatingBanner_5 = new RotatingBanner();
+        RotatingBanner_5.init(RotatingBanner_obj);
     });
 });

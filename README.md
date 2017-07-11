@@ -1,4 +1,4 @@
-# RotatingBanner JS插件 v2.1.2
+# RotatingBanner JS插件 v2.2.1
 ### 轮播Banner（不含样式）
 ### 安装：npm install TopuNet-RotatingBanner
 
@@ -27,6 +27,7 @@ requireJS引用：
 
 	// Banner1
 	var RotatingBanner_obj = {
+            effect: null, // 过渡效果。move-横向移动；fade-淡出。默认 "move"
         	mobile_effect: null, // 移动端效果：touchstart暂停、touchend重启并判断touchmove-x距离决定是否左右滑屏1次。默认false
         	mobile_effect_touchmove_distance_vw: null, // 采用移动端效果时，监听触摸滑屏的起效距离，默认30vw
         	autoPlay: null, // 自动播放：left/right/null，默认值：null
@@ -59,8 +60,25 @@ requireJS引用：
 		RotatingBanner_1.reStart(direction); // direction:"left"||"right"，默认"left"
 
 
+demo路由：
+--------------
+
+1. /：pc端原生引用
+
+1. /amd：pc端requirejs引用
+
+1. /mobile：移动端move效果
+
+1. /mobile_fade：移动端fade效果
+
+
 更新历史：
 --------------
+v2.2.1
+
+		1. 增加淡出效果切换。参数中增加"effect"，move-横向移动；fade-淡出。默认 "move"
+		2. 修改demo，增加demo/mobile_fade，但ios端淡出效果有瑕疵，闪屏。未能解决。
+
 v2.1.2
 
 		1. 做了IE9-兼容。IE9+用transition，IE9-用$.animate

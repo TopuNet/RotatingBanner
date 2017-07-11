@@ -1,4 +1,4 @@
-// 2.1.2
+// 2.2.1
 function RotatingBanner() {
     return {
         Timeout_id: null, // 记录定时器ID，清除时用
@@ -10,9 +10,10 @@ function RotatingBanner() {
         autoPlay: null, // 最原始传参的autoPlay（移动端touchend重启轮播用）
         // 参数集
         paras: {
-            mobile_effect: null, // 移动端效果：touchstart暂停、touchend重启并判断touchmove-x距离决定是否左右滑屏1次。默认false
+            effect: null, // 过渡效果。move-横向移动；fade-淡出。默认 "move"
+            mobile_effect: null, // 移动端效果：touchstart暂停、touchend重启并判断touchmove-x距离决定是否左右滑屏1次。effect=move时有效。默认false
             mobile_effect_touchmove_distance_vw: null, // 采用移动端效果时，监听触摸滑屏的起效距离，默认30vw
-            autoPlay: null, // 自动播放：left/right/null，默认值：null
+            autoPlay: null, // 自动播放：left/right/null，默认值：null。effect=move时，left和right效果一致
             box_selector: null, // 外盒选择器，默认值：section.banner
             pic_ul_selector: null, // 图片li的ul盒选择器，此盒必须存在于box_selector中，且值中不用包含box_selector。默认值：ul.pic_ul
             point_ul_selector: null, // 圆点li的ul盒选择器，空字符串为无圆点。此盒不必存在于box_selector中。默认值：section.banner ul.point_ul。
@@ -22,12 +23,13 @@ function RotatingBanner() {
             arrow_right_selector: null, // 右箭头的盒选择器，此盒不必存在于box_selector中。null为无右箭头。默认值：null
             duration: null, // 动画过渡时间，毫秒。默认500
             resize_li: null, // 自动改变li的宽高为外盒的宽高，默认true
-            distance: null, // 自动轮播和圆点点击时，滚动距离：distance个li；同时为圆点高亮移动的位数。默认为1
+            distance: null, // 自动轮播和圆点点击时，滚动距离：distance个li；同时为圆点高亮移动的位数。effect=move时有效。默认为1。
             delay: null // 动画间隔，毫秒。默认5000
         },
         init: function(_paras) {
 
             var paras_default = {
+                effect: "move",
                 mobile_effect: false,
                 mobile_effect_touchmove_distance_vw: 30,
                 autoPlay: null,
@@ -46,6 +48,14 @@ function RotatingBanner() {
             this.paras = $.extend(paras_default, _paras);
             _paras = this.paras;
             this.autoPlay = _paras.autoPlay;
+
+            if (_paras.effect == "fade")
+                console.dir(_paras);
+
+            if (this.paras.effect == "fade") {
+                this.paras.mobile_effect = false;
+                this.paras.distance = 1;
+            }
 
             // 屏数量
             var pointer_count = $(_paras.box_selector + " " + _paras.pic_ul_selector + " li").length;
@@ -129,7 +139,10 @@ function RotatingBanner() {
                         this_obj.li_width_px = _li_obj.width() + parseFloat(_li_obj.css("margin-left").replace("px", "")) + parseFloat(_li_obj.css("margin-right").replace("px", ""));
                     }
 
-                    var ul_width_px = this_obj.li_width_px * pic_li_obj.length;
+                    var ul_width_px = this_obj.li_width_px;
+
+                    if (_paras.effect == "move")
+                        ul_width_px *= pic_li_obj.length;
 
                     pic_ul_obj.css("width", ul_width_px + "px");
 
@@ -147,10 +160,22 @@ function RotatingBanner() {
         preRotating: function(direct) {
             var this_obj = this;
             clearTimeout(this_obj.Timeout_id);
-            var switch_left_default = function() {
+
+            // 渐进淡出
+            if (this_obj.paras.effect == "fade") {
                 this_obj.Timeout_id = setTimeout(function() {
                     if (this_obj.paras.autoPlay)
+                        this_obj.fadeToNext();
+                }, this_obj.paras.delay);
+                return;
+            }
+
+            // 左右滑屏
+            var switch_left_default = function() {
+                this_obj.Timeout_id = setTimeout(function() {
+                    if (this_obj.paras.autoPlay) {
                         this_obj.scrollToLeft();
+                    }
                 }, this_obj.paras.delay);
             };
             switch (direct.toLowerCase()) {
@@ -167,6 +192,66 @@ function RotatingBanner() {
                     }, this_obj.paras.delay);
                     break;
             }
+        },
+
+        // 渐进淡出 X张
+        fadeToNext: function(X) {
+            var this_obj = this;
+            if (this_obj.Rotating)
+                return;
+            this_obj.Rotating = true;
+            var _paras = this_obj.paras;
+
+            if (!X)
+                X = this_obj.paras.distance;
+
+            var ul_obj = $(_paras.box_selector + " " + _paras.pic_ul_selector);
+            var li_obj = ul_obj.find("li");
+            var li_length = li_obj.length;
+            var li_obj_last = li_obj.last();
+
+            if (X >= li_length)
+                X = li_length - 1;
+
+            if (X === 1) {
+                li_obj = li_obj_last;
+            } else {
+                li_obj = ul_obj.find("li:gt(" + (li_length - X - 1) + ")");
+
+                var i = 0;
+                li_length = li_obj.length;
+
+                for (; i < li_length - 1; i++)
+                    $(li_obj[i]).css({
+                        display: "none"
+                    });
+            }
+
+            // console.log(li_obj.length);
+
+            // 切换
+            this_obj.setFadeTo.apply(this_obj, [li_obj, this_obj.paras.duration, function(_this_obj, _li_obj) {
+
+                _li_obj.prependTo(ul_obj).css({
+                    "opacity": "1",
+                    "display": "block"
+                });
+
+
+                // 切换圆点
+                _this_obj.pointer_now += X;
+                if (_this_obj.pointer_now >= _this_obj.pointer_count) {
+                    _this_obj.pointer_now -= _this_obj.pointer_count;
+                }
+                _this_obj.changePoint();
+
+                _this_obj.Rotating = false;
+
+                // 再次执行滚动（如autoPlay不为null）
+                if (_this_obj.paras.autoPlay)
+                    _this_obj.preRotating(_this_obj.paras.autoPlay.toLowerCase());
+
+            }]);
         },
 
         // 向左滚X屏和Y个圆点位
@@ -283,10 +368,18 @@ function RotatingBanner() {
                     return;
 
                 // clearTimeout();
-                if (n < this_obj.pointer_now)
-                    this_obj.scrollToRight((this_obj.pointer_now - n) * _paras.distance, this_obj.pointer_now - n);
-                if (n > this_obj.pointer_now)
-                    this_obj.scrollToLeft((n - this_obj.pointer_now) * _paras.distance, n - this_obj.pointer_now);
+
+                if (_paras.effect == "move") {
+                    if (n < this_obj.pointer_now)
+                        this_obj.scrollToRight((this_obj.pointer_now - n) * _paras.distance, this_obj.pointer_now - n);
+                    if (n > this_obj.pointer_now)
+                        this_obj.scrollToLeft((n - this_obj.pointer_now) * _paras.distance, n - this_obj.pointer_now);
+                } else if (_paras.effect == "fade") {
+                    var X = n - this_obj.pointer_now;
+                    if (X < 0)
+                        X += obj.length;
+                    this_obj.fadeToNext(X);
+                }
             });
         },
 
@@ -401,6 +494,48 @@ function RotatingBanner() {
                 if (callback) {
                     setTimeout(function() {
                         callback(this_obj, obj);
+                    }, duration);
+                }
+            }
+        },
+
+        // 设置透明度样式
+        // obj: 设置对象
+        // duration: 动画时间，毫秒数
+        // callback: 完成回调
+        setFadeTo: function(obj, duration, callback) {
+
+            var this_obj = this;
+
+            // 判断
+            var transition = obj[0].style.transition;
+
+            if (transition === undefined || transition === null) {
+                obj.last().fadeOut(duration, function() {
+                    if (callback) {
+                        callback(this_obj, obj);
+                    }
+                });
+            } else {
+
+                // obj.one("transitionend", function() {
+                //     // obj.css("transition", "none");
+                //     console.log("here");
+                //     if (callback)
+                //         callback(this_obj, obj);
+                // });
+
+
+                obj.css({
+                    "transition": "opacity " + duration * 0.001 + "s linear",
+                    "opacity": 0
+                });
+
+                if (callback) {
+                    setTimeout(function() {
+
+                        if (callback)
+                            callback(this_obj, obj);
                     }, duration);
                 }
             }
