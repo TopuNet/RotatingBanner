@@ -15,7 +15,7 @@
     "express": "~4.13.1",
     "express-partials": "^0.3.0",
     "express-session": "^1.11.3",
-    "images": "2.1.11",
+    "images": "^3.0.0",
     "morgan": "~1.6.1",
     "multer": "^1.0.5",
     "node-uuid": "^1.4.3",

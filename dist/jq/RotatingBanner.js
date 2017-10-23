@@ -1,4 +1,4 @@
-// 2.2.1
+// 2.3.1
 function RotatingBanner() {
     return {
         Timeout_id: null, // 记录定时器ID，清除时用
@@ -10,12 +10,13 @@ function RotatingBanner() {
         autoPlay: null, // 最原始传参的autoPlay（移动端touchend重启轮播用）
         // 参数集
         paras: {
-            effect: null, // 过渡效果。move-横向移动；fade-渐进淡出。默认 "move"
+            effect: null, // 过渡效果。move-横向移动；fade-淡出。默认 "move"
             mobile_effect: null, // 移动端效果：touchstart暂停、touchend重启并判断touchmove-x距离决定是否左右滑屏1次。effect=move时有效。默认false
-            mobile_effect_touchmove_distance_vw: null, // 采用移动端效果时，监听触摸滑屏的起效距离，默认30vw
+            mobile_effect_touchmove_distance_vw: null, // 采用移动端效果时，监听触摸滑屏的起效距离，单位vw，默认30
             autoPlay: null, // 自动播放：left/right/null，默认值：null。effect=move时，left和right效果一致
             box_selector: null, // 外盒选择器，默认值：section.banner
             pic_ul_selector: null, // 图片li的ul盒选择器，此盒必须存在于box_selector中，且值中不用包含box_selector。默认值：ul.pic_ul
+            pic_li_selector: null, // 图片li的选择器，此盒必须存在于pic_ul_selector中，且值中不用包含pic_ul_selector。解决li中含有子li的问题。默认值: li
             point_ul_selector: null, // 圆点li的ul盒选择器，空字符串为无圆点。此盒不必存在于box_selector中。默认值：section.banner ul.point_ul。
             point_autoCreate: null, // 自动生成圆点，默认值：false
             point_li_selected_className: null, // 圆点高亮li的className，默认值：selected
@@ -23,7 +24,7 @@ function RotatingBanner() {
             arrow_right_selector: null, // 右箭头的盒选择器，此盒不必存在于box_selector中。null为无右箭头。默认值：null
             duration: null, // 动画过渡时间，毫秒。默认500
             resize_li: null, // 自动改变li的宽高为外盒的宽高，默认true
-            distance: null, // 自动轮播和圆点点击时，滚动距离：distance个li；同时为圆点高亮移动的位数。effect=move时有效。默认为1。
+            distance: null, // 自动轮播和圆点点击时，滚动距离：distance个li；不为1时，只支持单行多列平铺的li。默认为1。
             delay: null // 动画间隔，毫秒。默认5000
         },
         init: function(_paras) {
@@ -35,6 +36,7 @@ function RotatingBanner() {
                 autoPlay: null,
                 box_selector: "section.banner",
                 pic_ul_selector: "ul.pic_ul",
+                pic_li_selector: "li",
                 point_ul_selector: "section.banner ul.point_ul",
                 point_autoCreate: false,
                 point_li_selected_className: "selected",
@@ -58,7 +60,7 @@ function RotatingBanner() {
             }
 
             // 屏数量
-            var pointer_count = $(_paras.box_selector + " " + _paras.pic_ul_selector + " li").length;
+            var pointer_count = $(_paras.box_selector + " " + _paras.pic_ul_selector + " " + _paras.pic_li_selector).length;
             this.pointer_count = parseInt(pointer_count / _paras.distance);
             if (pointer_count % _paras.distance !== 0)
                 this.pointer_count++;
@@ -107,7 +109,7 @@ function RotatingBanner() {
             var _paras = this_obj.paras;
             var box_obj = $(_paras.box_selector); // 盒对象
             var pic_ul_obj = $(box_obj.find(_paras.pic_ul_selector)); // 图片ul对象
-            var pic_li_obj = $(box_obj.find(_paras.pic_ul_selector + " li")); // 图片li对象
+            var pic_li_obj = $(box_obj.find(_paras.pic_ul_selector + " " + _paras.pic_li_selector)); // 图片li对象
 
             this_obj.pic_length = pic_li_obj.length;
 
@@ -135,8 +137,8 @@ function RotatingBanner() {
                     if (pic_li_obj.length === 0)
                         this_obj.li_width_px = 0;
                     else {
-                        var _li_obj = $($(_paras.box_selector + " " + _paras.pic_ul_selector + " li")[0]);
-                        this_obj.li_width_px = _li_obj.width() + parseFloat(_li_obj.css("margin-left").replace("px", "")) + parseFloat(_li_obj.css("margin-right").replace("px", ""));
+                        var _li_obj = $($(_paras.box_selector + " " + _paras.pic_ul_selector + " " + _paras.pic_li_selector)[0]);
+                        this_obj.li_width_px = parseFloat(_li_obj.css("width").replace("px", "")) + parseFloat(_li_obj.css("margin-left").replace("px", "")) + parseFloat(_li_obj.css("margin-right").replace("px", ""));
                     }
 
                     var ul_width_px = this_obj.li_width_px;
@@ -206,7 +208,7 @@ function RotatingBanner() {
                 X = this_obj.paras.distance;
 
             var ul_obj = $(_paras.box_selector + " " + _paras.pic_ul_selector);
-            var li_obj = ul_obj.find("li");
+            var li_obj = ul_obj.find(_paras.pic_li_selector);
             var li_length = li_obj.length;
             var li_obj_last = li_obj.last();
 
@@ -216,7 +218,7 @@ function RotatingBanner() {
             if (X === 1) {
                 li_obj = li_obj_last;
             } else {
-                li_obj = ul_obj.find("li:gt(" + (li_length - X - 1) + ")");
+                li_obj = ul_obj.find(_paras.pic_li_selector + ":gt(" + (li_length - X - 1) + ")");
 
                 var i = 0;
                 li_length = li_obj.length;
@@ -275,7 +277,7 @@ function RotatingBanner() {
             // 执行滚动
             this_obj.setTranslate.apply(this_obj, [ul_obj, _paras.duration, ul_left_px_new, function(_this_obj, ul_obj) {
 
-                var li_obj = ul_obj.find("li");
+                var li_obj = ul_obj.find(_paras.pic_li_selector);
                 var i = 0;
                 for (; i < X; i++) {
                     $(li_obj[i]).appendTo(ul_obj);
@@ -316,7 +318,7 @@ function RotatingBanner() {
 
             var ul_obj = $(_paras.box_selector + " " + _paras.pic_ul_selector);
 
-            var li_obj = $(ul_obj.find("li"));
+            var li_obj = $(ul_obj.find(_paras.pic_li_selector));
             var li_obj_len = li_obj.length;
 
             var i = 0;
@@ -428,6 +430,7 @@ function RotatingBanner() {
             // touchstart
             pic_ul_obj.on("touchstart", function(event) {
                 touchstart_x = event.touches[0].clientX;
+                touchend_x = null;
                 this_obj.Pause();
             });
 
@@ -438,6 +441,9 @@ function RotatingBanner() {
 
             // touchend
             pic_ul_obj.on("touchend", function() {
+                if(!touchend_x)
+                    return;
+
                 var distance_vw = (touchend_x - touchstart_x) / window_width_px * 100;
                 var duration = 0;
 

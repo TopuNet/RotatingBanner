@@ -1,4 +1,4 @@
-# RotatingBanner JS插件 v2.2.1
+# RotatingBanner JS插件 v2.3.1
 ### 轮播Banner（不含样式）
 ### 安装：npm install TopuNet-RotatingBanner
 
@@ -28,20 +28,21 @@ requireJS引用：
 	// Banner1
 	var RotatingBanner_obj = {
             effect: null, // 过渡效果。move-横向移动；fade-淡出。默认 "move"
-        	mobile_effect: null, // 移动端效果：touchstart暂停、touchend重启并判断touchmove-x距离决定是否左右滑屏1次。effect=move时有效。默认false
-        	mobile_effect_touchmove_distance_vw: null, // 采用移动端效果时，监听触摸滑屏的起效距离，默认30vw
-        	autoPlay: null, // 自动播放：left/right/null，默认值：null。effect=move时，left和right效果一致
-        	box_selector: null, // 外盒选择器，默认值：section.banner
-        	pic_ul_selector: null, // 图片li的ul盒选择器，此盒必须存在于box_selector中，且值中不用包含box_selector。默认值：ul.pic_ul
-        	point_ul_selector: null, // 圆点li的ul盒选择器，空字符串为无圆点。此盒不必存在于box_selector中。默认值：section.banner ul.point_ul。
-        	point_autoCreate: null, // 自动生成圆点，默认值：false
-        	point_li_selected_className: null, // 圆点高亮li的className，默认值：selected
-        	arrow_left_selector: null, // 左箭头的盒选择器，此盒不必存在于box_selector中。null为无左箭头。默认值：null
-        	arrow_right_selector: null, // 右箭头的盒选择器，此盒不必存在于box_selector中。null为无右箭头。默认值：null
-        	duration: null, // 动画过渡时间，毫秒。默认500
-        	resize_li: null, // 自动改变li的宽高为外盒的宽高，默认true
-        	distance: null, // 自动轮播和圆点点击时，滚动距离：distance个li；同时为圆点高亮移动的位数。effect=move时有效。默认为1。
-        	delay: null // 动画间隔，毫秒。默认5000
+            mobile_effect: null, // 移动端效果：touchstart暂停、touchend重启并判断touchmove-x距离决定是否左右滑屏1次。effect=move时有效。默认false
+            mobile_effect_touchmove_distance_vw: null, // 采用移动端效果时，监听触摸滑屏的起效距离，单位vw，默认30
+            autoPlay: null, // 自动播放：left/right/null，默认值：null。effect=move时，left和right效果一致
+            box_selector: null, // 外盒选择器，默认值：section.banner
+            pic_ul_selector: null, // 图片li的ul盒选择器，此盒必须存在于box_selector中，且值中不用包含box_selector。默认值：ul.pic_ul
+            pic_li_selector: null, // 图片li的选择器，此盒必须存在于pic_ul_selector中，且值中不用包含pic_ul_selector。解决li中含有子li的问题。默认值: li
+            point_ul_selector: null, // 圆点li的ul盒选择器，空字符串为无圆点。此盒不必存在于box_selector中。默认值：section.banner ul.point_ul。
+            point_autoCreate: null, // 自动生成圆点，默认值：false
+            point_li_selected_className: null, // 圆点高亮li的className，默认值：selected
+            arrow_left_selector: null, // 左箭头的盒选择器，此盒不必存在于box_selector中。null为无左箭头。默认值：null
+            arrow_right_selector: null, // 右箭头的盒选择器，此盒不必存在于box_selector中。null为无右箭头。默认值：null
+            duration: null, // 动画过渡时间，毫秒。默认500
+            resize_li: null, // 自动改变li的宽高为外盒的宽高，默认true
+            distance: null, // 自动轮播和圆点点击时，滚动距离：distance个li；不为1时，只支持单行多列平铺的li。默认为1。
+            delay: null // 动画间隔，毫秒。默认5000
         };
         var RotatingBanner_1 = new RotatingBanner();
         RotatingBanner_1.init(RotatingBanner_obj);
@@ -74,6 +75,12 @@ demo路由：
 
 更新历史：
 --------------
+v2.3.1
+
+		1. 增加参数：pic_li_selector: null, // 图片li的选择器，此盒必须存在于pic_ul_selector中，且值中不用包含pic_ul_selector。解决li中含有子li的问题。默认值: li
+		2. 修改移动端原地点击也能触发动画的bug
+		3. 修改Readme中一些参数描述的不太准确的问题
+
 v2.2.1
 
 		1. 增加淡出效果切换。参数中增加"effect"，move-横向移动；fade-淡出。默认 "move"

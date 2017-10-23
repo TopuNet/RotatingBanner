@@ -19,6 +19,8 @@
                 <li class="li_click" style="background:url(/Uploadfile/temp/banner_02.jpg); background-position: center;" url="http://www.topu.net" target="_blank"></li>
                 <li class="li_click" style="background:url(<% // 这里服务器端动态赋值 %>/Uploadfile/temp/banner_01.jpg); background-position: center;" url="http://www.sina.com" target="_blank"></li>
             </ul>
+            <ul class="point_ul" <% // 圆点的ul盒，自动生成li %>>
+            </ul>
         </section>
     </section>
     <script src="/inc/zepto.min.js" type="text/javascript"></script>
@@ -46,7 +48,8 @@
             // duration: null, // 动画过渡时间，毫秒。默认500
             // resize_li: null, // 自动改变li的宽高为外盒的宽高，默认true
             // distance: null, // 自动轮播时，滚动距离：distance个li。默认为1
-            delay: 2000 // 动画间隔，毫秒。默认5000
+            delay: 2000, // 动画间隔，毫秒。默认5000
+            point_autoCreate: true
         };
         var RotatingBanner_1 = new RotatingBanner();
         RotatingBanner_1.init(RotatingBanner_obj);
