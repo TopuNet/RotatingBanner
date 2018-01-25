@@ -1,4 +1,4 @@
-// 2.3.1
+// 2.4.1
 function RotatingBanner() {
     return {
         Timeout_id: null, // 记录定时器ID，清除时用
@@ -25,7 +25,8 @@ function RotatingBanner() {
             duration: null, // 动画过渡时间，毫秒。默认500
             resize_li: null, // 自动改变li的宽高为外盒的宽高，默认true
             distance: null, // 自动轮播和圆点点击时，滚动距离：distance个li；不为1时，只支持单行多列平铺的li。默认为1。
-            delay: null // 动画间隔，毫秒。默认5000
+            delay: null, // 动画间隔，毫秒。默认5000
+            move_callback: function(pointer_now) {} // 切屏后的回调 @pointer_now：当前第几屏，0为第一个
         },
         init: function(_paras) {
 
@@ -355,6 +356,8 @@ function RotatingBanner() {
             var obj = $(_paras.point_ul_selector + " li");
             obj.siblings("." + _paras.point_li_selected_className).removeClass(_paras.point_li_selected_className);
             $(obj[this_obj.pointer_now]).addClass(_paras.point_li_selected_className);
+            if (_paras.move_callback)
+                _paras.move_callback(this_obj.pointer_now);
         },
 
         // 监听圆点
@@ -441,7 +444,7 @@ function RotatingBanner() {
 
             // touchend
             pic_ul_obj.on("touchend", function() {
-                if(!touchend_x)
+                if (!touchend_x)
                     return;
 
                 var distance_vw = (touchend_x - touchstart_x) / window_width_px * 100;

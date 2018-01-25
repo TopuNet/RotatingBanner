@@ -1,4 +1,4 @@
-# RotatingBanner JS插件 v2.3.1
+# RotatingBanner JS插件 v2.4.1
 ### 轮播Banner（不含样式）
 ### 安装：npm install TopuNet-RotatingBanner
 
@@ -42,7 +42,8 @@ requireJS引用：
             duration: null, // 动画过渡时间，毫秒。默认500
             resize_li: null, // 自动改变li的宽高为外盒的宽高，默认true
             distance: null, // 自动轮播和圆点点击时，滚动距离：distance个li；不为1时，只支持单行多列平铺的li。默认为1。
-            delay: null // 动画间隔，毫秒。默认5000
+            delay: null, // 动画间隔，毫秒。默认5000
+            move_callback: function(pointer_now) {} // 切屏后的回调 @pointer_now：当前第几屏，0为第一个
         };
         var RotatingBanner_1 = new RotatingBanner();
         RotatingBanner_1.init(RotatingBanner_obj);
@@ -75,6 +76,10 @@ demo路由：
 
 更新历史：
 --------------
+v2.4.1
+
+		1. 增加参数：move_callback: function(pointer_now) {} // 切屏后的回调 @pointer_now：当前第几屏，0为第一个
+
 v2.3.1
 
 		1. 增加参数：pic_li_selector: null, // 图片li的选择器，此盒必须存在于pic_ul_selector中，且值中不用包含pic_ul_selector。解决li中含有子li的问题。默认值: li
